@@ -124,8 +124,6 @@ if __name__ == "__main__":
 
     view_menu.addMenu(theme)
 
-
-
     # menu_bar.addMenu(file_menu)
     # menu_bar.addMenu(edit_menu)
     menu_bar.addMenu(view_menu)
