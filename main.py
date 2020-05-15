@@ -37,7 +37,7 @@ if __name__ == "__main__":
         data_list = get_file_handler(file_path, metadata_path)
         central_workspace = CentralWidget(central_widget, data_list)
         central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), file_path.replace("_data", "").capitalize())
-        central_widget.setTabsClosable(True)
+        # central_widget.setTabsClosable(True)
         central_widget.tabCloseRequested.connect(delete_tab)
         main_window.setCentralWidget(central_widget)
 
