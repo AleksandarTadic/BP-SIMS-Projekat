@@ -3,7 +3,7 @@
     "class": "Student",
     "collumns": ["broj_indeksa", "ime_prezime"],
     "key": "broj_indeksa",
-    "linked_files": ["nepolozeni_predmeti_metadata", "polozeni_predmeti_metadata"],
+    "linked_files": ["predmet_metadata.json", "nastavnik_metadata.json"],
     "path_to_file": "student_data",
     "type": "sequential"
 }

@@ -83,10 +83,10 @@ class MainWindow(QtWidgets.QMainWindow):
                     print("Metadata file nije pronadjen!")
                 if temp_metadata["type"] == "sequential":
                     status_bar.showMessage("Otvorili ste " + file_path.replace("_data", "e") + "!          Tip: " + temp_metadata["type"])
-                    return SequentialHandler(file_path, metadata_path)
+                    return SequentialHandler(metadata_path, file_path)
                 else:
                     status_bar.showMessage("Otvorili ste " + file_path.replace("_data", "e") + "!          Tip: " + temp_metadata["type"])
-                    return SerialHandler(file_path, metadata_path)
+                    return SerialHandler(metadata_path, file_path)
     
             central_widget = QtWidgets.QTabWidget(self)
             data_list = get_file_handler(file_path, metadata_path)

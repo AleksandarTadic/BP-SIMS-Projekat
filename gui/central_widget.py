@@ -8,17 +8,24 @@ class CentralWidget(QtWidgets.QWidget):
         super().__init__(parent)
         self.main_layout = QtWidgets.QVBoxLayout()
         self.data_list = data_list
+        self.subtables = []
         self.tab_widget = None
         # self.create_tab_widget()
+
+        for i in range(len(self.data_list.metadata["linked_files"])):
+            self.subtables.append(QtWidgets.QTableView(self.tab_widget))
+
 
         self.model = Model(self.data_list)
         self.table = QtWidgets.QTableView(self.tab_widget)
         self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.table.setModel(self.model)
-        # za tabelu dodato da resize za max podataka
         self.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-        # QtWidgets.QHeaderView.stretchLastSection
+
+        # subtable test
+        self.table.clicked.connect(self.show_tabs)
+
 
     
         self.tool_bar = QtWidgets.QToolBar()
@@ -52,7 +59,9 @@ class CentralWidget(QtWidgets.QWidget):
     
         self.main_layout.addWidget(self.tool_bar)
         self.main_layout.addWidget(self.table)
-        # self.main_layout.addWidget(self.tab_widget)
+        if len(self.subtables) > 0:
+            self.create_tab_widget()
+            self.main_layout.addWidget(self.tab_widget)
         self.setLayout(self.main_layout)
 
     def data_object_selected(self, index):
@@ -64,10 +73,10 @@ class CentralWidget(QtWidgets.QWidget):
         # self.tab_widget.addTab(self.subtable, QtGui.QIcon("icons8-edit-file-64.png"), "Polozeni predmeti")
 
         
-    # def create_tab_widget(self):
-    #     self.tab_widget = QtWidgets.QTabWidget(self)
-    #     self.tab_widget.setTabsClosable(True)
-    #     self.tab_widget.tabCloseRequested.connect(self.delete_tab)
+    def create_tab_widget(self):
+        self.tab_widget = QtWidgets.QTabWidget(self)
+        self.tab_widget.setTabsClosable(True)
+        self.tab_widget.tabCloseRequested.connect(self.delete_tab)
 
     def delete_tab(self, index):
         self.tab_widget.removeTab(index)
@@ -78,6 +87,9 @@ class CentralWidget(QtWidgets.QWidget):
 
     #     return polozeni_predmeti_model
 
+    def show_tabs(self):
+        for i in self.subtables:
+            self.tab_widget.addTab(i, QtGui.QIcon("icons8-edit-file-64.png"), "Polozeni predmeti")
 
     def remove_one(self):
         indexes = self.table.selectionModel().selectedIndexes()
@@ -98,3 +110,28 @@ class CentralWidget(QtWidgets.QWidget):
         menu.exec_(QtGui.QCursor.pos())
     
 
+class WorkspaceWidget(QtWidgets.QWidget):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.main_layout = QtWidgets.QVBoxLayout()
+        self.tab_widget = None
+        self.create_tab_widget()
+
+        self.subtable1 = QtWidgets.QTableView(self.tab_widget)
+        self.subtable2 = QtWidgets.QTableView(self.tab_widget)  
+    
+        self.main_layout.addWidget(self.tab_widget)
+        self.setLayout(self.main_layout)
+
+    def student_selected(self, index):
+        model = self.table1.model()
+        selected_student = model.get_element(index)
+
+        polozeni_predmeti_model = PolozeniPredmetModel()
+        polozeni_predmeti_model.polozeni_predmeti = selected_student.polozeni_predmeti
+
+        nepolozeni_predmeti_model = NepolozeniPredmetModel()
+        nepolozeni_predmeti_model.nepolozeni_predmeti = selected_student.nepolozeni_predmeti
+
+        self.subtable1.setModel(polozeni_predmeti_model)
+        self.subtable2.setModel(nepolozeni_predmeti_model)
