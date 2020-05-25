@@ -4,14 +4,12 @@ import pickle
 
 
 class SerialHandler(DataHandler):
-    def __init__(self, meta_filepath, filepath=""):
+    def __init__(self, meta_filepath, filepath):
         super().__init__()
         self.filepath = "database/data/" + filepath
         self.meta_filepath = "database/metadata/" + meta_filepath
         self.data = []
         self.metadata = {}
-        if filepath == "":
-            self.filepath += getattr(self.metadata, "path_to_file")
         self.load_data()
 
     def load_data(self):

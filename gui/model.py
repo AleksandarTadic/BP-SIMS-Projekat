@@ -33,6 +33,7 @@ class Model(QtCore.QAbstractTableModel):
         for i in range(len(self.data_list.metadata["collumns"])):
             if index.column() == i and role == QtCore.Qt.EditRole:
                 if self.data_list.metadata["key"] == self.data_list.metadata["collumns"][i]:
+                    self.selected_data.QtCore.Qt.NoItemFlags()
                     message_box = QtWidgets.QMessageBox()
                     message_box.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
                     message_box.setText("Kljuc nije moguce menjati!")

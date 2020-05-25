@@ -2,11 +2,11 @@ import os
 import json
 import datetime
 from PySide2 import QtWidgets, QtGui, QtCore
-from database.serial_handler import SerialHandler
-from database.sequential_handler import SequentialHandler
 from gui.central_widget import CentralWidget
 from gui.appearence.appearence import *
 from gui.help import Help
+from database.file_handler import FileHandler
+
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self,app):
@@ -70,30 +70,16 @@ class MainWindow(QtWidgets.QMainWindow):
             file_path = os.path.basename(file_system_model.filePath(index))
             metadata_path = file_path.replace("_data","_metadata.json")
 
-            def delete_tab(index):
-                central_widget.removeTab(index)
-                status_bar.showMessage("Zatvorili ste " + file_path.replace("_data", "e") + "!")
-            
-            def get_file_handler(file_path, metadata_path):
-                temp_metadata = None
-                try:
-                    with open("database/metadata/" + metadata_path, "rb") as temp_meta_file:
-                        temp_metadata = json.load(temp_meta_file)
-                except FileNotFoundError:
-                    print("Metadata file nije pronadjen!")
-                if temp_metadata["type"] == "sequential":
-                    status_bar.showMessage("Otvorili ste " + file_path.replace("_data", "e") + "!          Tip: " + temp_metadata["type"])
-                    return SequentialHandler(metadata_path, file_path)
-                else:
-                    status_bar.showMessage("Otvorili ste " + file_path.replace("_data", "e") + "!          Tip: " + temp_metadata["type"])
-                    return SerialHandler(metadata_path, file_path)
-    
+            # def delete_tab(index):
+            #     central_widget.removeTab(index)
+            #     status_bar.showMessage("Zatvorili ste " + file_path.replace("_data", "e") + "!")
+               
             central_widget = QtWidgets.QTabWidget(self)
-            data_list = get_file_handler(file_path, metadata_path)
-            central_workspace = CentralWidget(central_widget, data_list)
+            data_list = FileHandler(metadata_path)
+            central_workspace = CentralWidget(central_widget, data_list.get_handler())
             central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), file_path.replace("_data", "").capitalize())
             # central_widget.setTabsClosable(True)
-            central_widget.tabCloseRequested.connect(delete_tab)
+            # central_widget.tabCloseRequested.connect(delete_tab)
             self.setCentralWidget(central_widget)
 
         tree_view.clicked.connect(file_clicked)

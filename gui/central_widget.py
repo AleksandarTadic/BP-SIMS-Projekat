@@ -3,6 +3,8 @@ from gui.model import Model
 
 from gui.form import Form
 
+from database.file_handler import FileHandler
+
 class CentralWidget(QtWidgets.QWidget):
     def __init__(self, parent, data_list):
         super().__init__(parent)
@@ -88,8 +90,11 @@ class CentralWidget(QtWidgets.QWidget):
     #     return polozeni_predmeti_model
 
     def show_tabs(self):
-        for i in self.subtables:
-            self.tab_widget.addTab(i, QtGui.QIcon("icons8-edit-file-64.png"), "Polozeni predmeti")
+        for i in range(len(self.subtables)):
+            self.subhandler = FileHandler(self.data_list.metadata["linked_files"][i]).get_handler()
+            self.submodel = Model(self.subhandler)
+            self.subtables[i].setModel(self.submodel)
+            self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons8-edit-file-64.png"), self.data_list.metadata["linked_files"][i].replace("_metadata.json","").capitalize())
 
     def remove_one(self):
         indexes = self.table.selectionModel().selectedIndexes()
