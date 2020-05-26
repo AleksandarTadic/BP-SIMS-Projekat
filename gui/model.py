@@ -61,6 +61,10 @@ class Model(QtCore.QAbstractTableModel):
         return True
 
     def flags(self, index):
+        for i in range(len(self.data_list.metadata["collumns"])):
+            if self.data_list.metadata["collumns"][i] == self.data_list.metadata["key"]:
+                if index.column() == i:
+                    return ~QtCore.Qt.ItemIsEditable
         return super().flags(index) | QtCore.Qt.ItemIsEditable
 
 

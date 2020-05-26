@@ -75,8 +75,9 @@ class MainWindow(QtWidgets.QMainWindow):
             #     status_bar.showMessage("Zatvorili ste " + file_path.replace("_data", "e") + "!")
                
             central_widget = QtWidgets.QTabWidget(self)
-            data_list = FileHandler(metadata_path)
-            central_workspace = CentralWidget(central_widget, data_list.get_handler())
+            data_list = FileHandler(metadata_path).get_handler()
+            status_bar.showMessage("Otvorili ste " + file_path.replace("_data", "e") + "!          Tip: " + data_list.metadata["type"])
+            central_workspace = CentralWidget(central_widget, data_list)
             central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), file_path.replace("_data", "").capitalize())
             # central_widget.setTabsClosable(True)
             # central_widget.tabCloseRequested.connect(delete_tab)
