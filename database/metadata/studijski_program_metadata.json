@@ -1,0 +1,14 @@
+{
+    "title": "Studijski program",
+    "class": "StudijskiProgram",
+    "collumns": [
+        "ustanova",
+        "nivo",
+        "oznaka_programa",
+        "naziv_programa"
+    ],
+    "key": ["ustanova","oznaka_programa"],
+    "linked_files": [],
+    "path_to_file": "studijski_program_data",
+    "type": "serial"
+}

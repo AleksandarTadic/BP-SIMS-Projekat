@@ -1,9 +1,0 @@
-{
-    "title": "Nastavnici",
-    "class": "Nastavnik",
-    "collumns": ["sifra_zaposlenog", "ime", "prezime", "datum_rodjenja", "tip"],
-    "key": "sifra_zaposlenog",
-    "linked_files": [],
-    "path_to_file": "nastavnik_data",
-    "type": "sequential"
-}

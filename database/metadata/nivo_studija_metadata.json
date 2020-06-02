@@ -1,0 +1,12 @@
+{
+    "title": "Nivo studija",
+    "class": "NivoStudija",
+    "collumns": [
+        "oznaka",
+        "naziv"
+    ],
+    "key": ["oznaka"],
+    "linked_files": [],
+    "path_to_file": "nivo_studija_data",
+    "type": "serial"
+}

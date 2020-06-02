@@ -46,7 +46,8 @@ class CentralWidget(QtWidgets.QWidget):
         if table is not None:
             toolbar_add.triggered.connect(lambda : model.insertRows(1, 1, QtCore.QModelIndex()))
         else:
-            toolbar_add.triggered.connect(lambda : self.subtables[self.get_current_widget()].model().insertRows(1, 1, QtCore.QModelIndex()))
+            # toolbar_add.triggered.connect(lambda : self.subtables[self.get_current_widget()].model().insertRows(1, 1, QtCore.QModelIndex()))
+            toolbar_add.triggered.connect(lambda : self.insert_one(self.insert_one(self.subtables[self.get_current_widget()].model())))
         self.toolbar.addAction(toolbar_add)
         toolbar_delete = QtWidgets.QAction("DELETE", self.toolbar)
         if table is not None:
@@ -80,20 +81,26 @@ class CentralWidget(QtWidgets.QWidget):
             self.subtables[i].setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
             self.subtables[i].horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
             self.subtables[i].setModel(self.model)
-            self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons8-edit-file-64.png"), self.data_list.metadata["linked_files"][i].replace("_metadata.json","").capitalize())
+            self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons/tab_icon.png"), self.data_list.metadata["linked_files"][i].replace("_metadata.json","").capitalize())
 
     def remove_one(self, table, model):
-        indexes = table.selectionModel().selectedIndexes()
-        for index in indexes:
-            model.removeRows(index.row(), 1, index)
-            break
+        if model is not None:
+            indexes = table.selectionModel().selectedIndexes()
+            for index in indexes:
+                model.removeRows(index.row(), 1, index)
+                break
         # index = self.table.selectionModel().currentIndex()
         # self.table.model().removeRows(index.row(), 1, index)
+
+    def insert_one(self, model):
+        if model is not None:
+            model.insertRows(1, 1, QtCore.QModelIndex())
+
 
     def handle_header_menu(self):
         menu = QtWidgets.QMenu(self)
         delete = QtWidgets.QAction("Delete", menu)
-        delete.triggered.connect(lambda : self.remove_one())
+        delete.triggered.connect(lambda : self.remove_one(self.table, self.table.model()))
         menu.addAction(delete)
         add = QtWidgets.QAction("Add", menu)
         add.triggered.connect(lambda : self.table.model().insertRows(1, 1, QtCore.QModelIndex()))

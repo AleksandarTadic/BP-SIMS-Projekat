@@ -60,7 +60,12 @@ class SerialHandler(DataHandler):
 
     def search(self, id):
         for d in range(len(self.data)):
-            if getattr(self.data[d], (self.metadata["key"])) == getattr(id, (self.metadata["key"])):
+            if self.concat(self.data[d]) == self.concat(id):
                 return d
         return None
 
+    def concat(self, keys):
+        primary_key = ""
+        for i in range(len(self.metadata["key"])):
+            primary_key += str(getattr(keys, (self.metadata["key"][i])))
+        return primary_key

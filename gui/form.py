@@ -6,7 +6,7 @@ class Form(QtWidgets.QDialog):
         self.data_type = data_type
         self.new_object = None
         self.setWindowIcon(QtGui.QIcon("icons/angry.ico"))
-        self.setWindowTitle("Dodavanje " + data_type.metadata["class"].lower() + "a")
+        self.setWindowTitle(data_type.metadata["title"] + " dodavanje")
         self.layout = QtWidgets.QFormLayout()
         self.dodaj = QtWidgets.QPushButton("Dodaj")
         self.dodaj.clicked.connect(lambda : self.add_class())
@@ -15,7 +15,7 @@ class Form(QtWidgets.QDialog):
         for i in range(len(data_type.metadata["collumns"])):
             self.line_edit = QtWidgets.QLineEdit()
             self.line_edit.setFixedSize(200,40)
-            self.layout.addRow(QtWidgets.QLabel(self.data_type.metadata["collumns"][i].replace("_"," ")+ ": "),self.line_edit)
+            self.layout.addRow(QtWidgets.QLabel(self.data_type.metadata["collumns"][i].replace("_"," ").capitalize() + ": "),self.line_edit)
             self.q_line_edit_list.append(self.line_edit)
         self.layout.addWidget(self.dodaj)
         self.setLayout(self.layout)
@@ -30,7 +30,7 @@ class Form(QtWidgets.QDialog):
         return my_class
     
     def add_class(self):
-        path_to_class = ("database.klase" + "." + self.data_type.metadata["class"].lower() + "." + self.data_type.metadata["class"])
+        path_to_class = ("database.klase" + "." + self.data_type.metadata["path_to_file"].lower().replace("_data","") + "." + self.data_type.metadata["class"])
         new_class = self.get_class(path_to_class)
         self.new_object = new_class()
         for i in range(len(self.q_line_edit_list)):
@@ -43,7 +43,7 @@ class Form(QtWidgets.QDialog):
                 return
             setattr(self.new_object, self.data_type.metadata["collumns"][i], self.q_line_edit_list[i].text())
         for i in self.data_type.data:
-            if getattr(i, self.data_type.metadata["key"]) == getattr(self.new_object, self.data_type.metadata["key"]):
+            if self.data_type.concat(i) == self.data_type.concat(self.new_object):
                 message_box = QtWidgets.QMessageBox()
                 message_box.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
                 message_box.setText("Kljuc je zauzet!")

@@ -58,11 +58,6 @@ class SequentialHandler(DataHandler):
             for obj in obj_list:
                 self.insert(obj)
 
-    # def edit(self, id, col, value):
-    #     change_data = self.data[self.binary_search(id)]
-    #     setattr(change_data, self.metadata["collumns"][col], value)
-    #     # self.save_data()
-
     def edit(self, id, attr, value):
         change_data = self.data[self.binary_search(id)]
         setattr(change_data, attr, value)
@@ -74,49 +69,53 @@ class SequentialHandler(DataHandler):
             self.data.remove(temp_object)
             self.save_data()
   
+    # def binary_search(self, id):
+    #     start = 0
+    #     end = len(self.data)-1
+    #     found = False
+    #     while (start <= end and not found):
+    #         mid = start + (end - start)//2
+    #         print(self.concat(self.data[mid]))
+    #         print(self.concat(id))
+    #         if getattr(self.data[mid], (self.metadata["key"])) == getattr(id, (self.metadata["key"])):
+    #             found == True
+    #             return mid
+    #         elif getattr(self.data[mid], (self.metadata["key"])) < getattr(id, (self.metadata["key"])):
+    #             start = mid + 1
+    #         else:
+    #             end = mid - 1
+    #     return None
+
     def binary_search(self, id):
         start = 0
         end = len(self.data)-1
         found = False
         while (start <= end and not found):
             mid = start + (end - start)//2
-            if getattr(self.data[mid], (self.metadata["key"])) == getattr(id, (self.metadata["key"])):
+            if self.concat(self.data[mid]) == self.concat(id):
                 found == True
                 return mid
-            elif getattr(self.data[mid], (self.metadata["key"])) < getattr(id, (self.metadata["key"])):
+            elif self.concat(self.data[mid]) < self.concat(id):
                 start = mid + 1
             else:
                 end = mid - 1
         return None
-
-    # def find_location_binary(self, obj):
-    #     start = 0
-    #     end = len(self.data)-1
-    #     while start <= end:
-    #         mid = start + (end - start)//2
-    #         if getattr(self.data[start], (self.metadata["key"])) > getattr(obj, (self.metadata["key"])):
-    #             return start
-    #         elif getattr(self.data[mid], (self.metadata["key"])) > getattr(obj, (self.metadata["key"])):
-    #             return mid
-    #         elif getattr(self.data[mid], (self.metadata["key"])) < getattr(obj, (self.metadata["key"])):
-    #             start = mid + 1
-    #         else:
-    #             end = mid - 1
-    #     return None
 
     def find_location_binary(self, obj):
         start = 0
         end = len(self.data)-1
         while start <= end:
             mid = start + (end - start)//2
-            if getattr(self.data[mid], (self.metadata["key"])) > getattr(obj, (self.metadata["key"])) and getattr(self.data[mid-1], (self.metadata["key"])) < getattr(obj, (self.metadata["key"])):
+            if self.concat(self.data[mid]) > self.concat(obj):
                 return mid
-            elif getattr(self.data[mid], (self.metadata["key"])) < getattr(obj, (self.metadata["key"])):
+            elif self.concat(self.data[mid]) < self.concat(obj):
                 start = mid + 1
             else:
                 end = mid - 1
         return start
 
-
-
-
+    def concat(self, keys):
+        primary_key = ""
+        for i in range(len(self.metadata["key"])):
+            primary_key += str(getattr(keys, (self.metadata["key"][i])))
+        return primary_key

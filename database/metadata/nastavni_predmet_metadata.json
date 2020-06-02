@@ -1,0 +1,14 @@
+{
+    "title": "Nastavni predmet",
+    "class": "NastavniPredmet",
+    "collumns": [
+        "ustanova",
+        "oznaka",
+        "naziv",
+        "espb"
+    ],
+    "key": ["ustanova","oznaka"],
+    "linked_files": [],
+    "path_to_file": "nastavni_predmet_data",
+    "type": "sequential"
+}

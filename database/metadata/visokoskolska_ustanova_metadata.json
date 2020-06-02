@@ -1,0 +1,13 @@
+{
+    "title": "Viskoskolska ustanova",
+    "class": "VisokoskolskaUStanova",
+    "collumns": [
+        "oznaka",
+        "naziv",
+        "adresa"
+    ],
+    "key": ["oznaka"],
+    "linked_files": [],
+    "path_to_file": "visokoskolska_ustanova_data",
+    "type": "serial"
+}

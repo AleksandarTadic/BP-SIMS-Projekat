@@ -1,0 +1,33 @@
+{
+    "title": "Tok studija",
+    "class": "TokStudija",
+    "collumns": [
+        "ustanova",
+        "oznaka_programa",
+        "student_iz_ustanove",
+        "struka",
+        "indeks",
+        "skolska_godina",
+        "godina_studija",
+        "blok",
+        "redni_broj_upisa",
+        "datum_upisa",
+        "datum_overe",
+        "espb_pocetni",
+        "espb_krajnji"
+    ],
+    "key": [
+        "ustanova",
+        "oznaka_programa",
+        "student_iz_ustanove",
+        "struka",
+        "indeks",
+        "skolska_godina",
+        "godina_studija",
+        "blok",
+        "redni_broj_upisa"
+    ],
+    "linked_files": [],
+    "path_to_file": "tok_studija_data",
+    "type": "sequential"
+}
