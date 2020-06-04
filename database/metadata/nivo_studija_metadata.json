@@ -6,7 +6,7 @@
         "naziv"
     ],
     "key": ["oznaka"],
-    "linked_files": [],
+    "linked_files": ["studijski_program_metadata.json"],
     "path_to_file": "nivo_studija_data",
     "type": "serial"
 }

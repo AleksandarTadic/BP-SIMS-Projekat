@@ -19,7 +19,7 @@
         "struka",
         "broj_indeksa"
     ],
-    "linked_files": [],
+    "linked_files": ["tok_studija_metadata.json"],
     "path_to_file": "student_data",
     "type": "sequential"
 }

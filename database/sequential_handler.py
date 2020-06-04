@@ -69,23 +69,6 @@ class SequentialHandler(DataHandler):
             self.data.remove(temp_object)
             self.save_data()
   
-    # def binary_search(self, id):
-    #     start = 0
-    #     end = len(self.data)-1
-    #     found = False
-    #     while (start <= end and not found):
-    #         mid = start + (end - start)//2
-    #         print(self.concat(self.data[mid]))
-    #         print(self.concat(id))
-    #         if getattr(self.data[mid], (self.metadata["key"])) == getattr(id, (self.metadata["key"])):
-    #             found == True
-    #             return mid
-    #         elif getattr(self.data[mid], (self.metadata["key"])) < getattr(id, (self.metadata["key"])):
-    #             start = mid + 1
-    #         else:
-    #             end = mid - 1
-    #     return None
-
     def binary_search(self, id):
         start = 0
         end = len(self.data)-1

@@ -8,7 +8,7 @@
         "naziv_programa"
     ],
     "key": ["ustanova","oznaka_programa"],
-    "linked_files": [],
+    "linked_files": ["tok_studija_metadata.json", "plan_studijske_grupe_metadata.json"],
     "path_to_file": "studijski_program_data",
     "type": "serial"
 }

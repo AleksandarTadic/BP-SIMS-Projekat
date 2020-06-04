@@ -81,7 +81,7 @@ class CentralWidget(QtWidgets.QWidget):
             self.subtables[i].setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
             self.subtables[i].horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
             self.subtables[i].setModel(self.model)
-            self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons/tab_icon.png"), self.data_list.metadata["linked_files"][i].replace("_metadata.json","").capitalize())
+            self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons/tab_icon.png"), self.model.data_list.metadata["title"])
 
     def remove_one(self, table, model):
         if model is not None:
