@@ -2,7 +2,7 @@
     "title": "Plan studijske grupe",
     "class": "PlanStudijskeGrupe",
     "collumns": [
-        "program_ustanove",
+        "oznaka_ustanove",
         "oznaka_programa",
         "blok",
         "pozicija",
@@ -10,7 +10,7 @@
         "oznaka_predmeta"
     ],
     "key": [
-        "program_ustanove",
+        "oznaka_ustanove",
         "oznaka_programa",
         "blok",
         "pozicija"

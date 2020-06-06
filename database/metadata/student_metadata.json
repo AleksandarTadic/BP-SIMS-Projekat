@@ -2,7 +2,7 @@
     "title": "Student",
     "class": "Student",
     "collumns": [
-        "ustanova",
+        "oznaka_ustanove",
         "struka",
         "broj_indeksa",
         "prezime",
@@ -15,7 +15,7 @@
         "datum_rodjenja"
     ],
     "key": [
-        "ustanova",
+        "oznaka_ustanove",
         "struka",
         "broj_indeksa"
     ],

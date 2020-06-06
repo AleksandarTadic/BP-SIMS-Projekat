@@ -1,6 +1,6 @@
 class Student:
-    def __init__(self, ustanova="", struka="", indeks="", prezime="", ime_roditelja="", ime="", pol="", adresa_stanovanja="", telefon="", jmbg="", datum_rodjenja=""):
-        self.ustanova = ustanova
+    def __init__(self, oznaka_ustanove="", struka="", indeks="", prezime="", ime_roditelja="", ime="", pol="", adresa_stanovanja="", telefon="", jmbg="", datum_rodjenja=""):
+        self.oznaka_ustanove = oznaka_ustanove
         self.struka = struka
         self.indeks = indeks
         self.prezime = prezime

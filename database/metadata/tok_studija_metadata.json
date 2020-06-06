@@ -2,7 +2,7 @@
     "title": "Tok studija",
     "class": "TokStudija",
     "collumns": [
-        "ustanova",
+        "oznaka_ustanove",
         "oznaka_programa",
         "student_iz_ustanove",
         "struka",
@@ -17,7 +17,7 @@
         "espb_krajnji"
     ],
     "key": [
-        "ustanova",
+        "oznaka_ustanove",
         "oznaka_programa",
         "student_iz_ustanove",
         "struka",
