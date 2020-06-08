@@ -69,3 +69,19 @@ class SerialHandler(DataHandler):
         for i in range(len(self.metadata["key"])):
             primary_key += str(getattr(keys, (self.metadata["key"][i])))
         return primary_key
+
+    def get_filtered_data(self, selected, selected_metadata):
+        filtered_data = []
+        for d in range(len(self.data)):
+            current = ""
+            filter_sel = ""
+            for i in range(len(self.metadata["key"])):
+                for j in range(len(selected_metadata["key"])):
+                    if self.metadata["key"][i] == selected_metadata["key"][j]:
+                        current += str(getattr(self.data[d], (self.metadata["key"][i])))
+                        filter_sel += str(getattr(selected, (selected_metadata["key"][j])))
+            if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
+                filtered_data.append(self.data[d])
+        return filtered_data
+
+

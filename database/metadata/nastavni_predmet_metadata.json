@@ -13,5 +13,5 @@
     ],
     "linked_files": ["plan_studijske_grupe_metadata.json"],
     "path_to_file": "nastavni_predmet_data",
-    "type": "sequential"
+    "type": "serial"
 }

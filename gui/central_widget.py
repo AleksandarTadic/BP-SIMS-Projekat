@@ -23,7 +23,7 @@ class CentralWidget(QtWidgets.QWidget):
         self.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.table.setModel(self.model)
 
-        # subtable test
+        # subtable
         self.table.clicked.connect(self.show_tabs)
 
         # test za context
@@ -57,11 +57,6 @@ class CentralWidget(QtWidgets.QWidget):
         self.toolbar.addAction(toolbar_delete)
         layout.addWidget(self.toolbar)
         
-
-    # def data_object_selected(self, index):
-    #     model = self.table.model(self.data_list)
-    #     selected_object_model = model.get_element(index)
-
     def get_current_widget(self):
         return self.tab_widget.currentIndex()
         
@@ -73,10 +68,36 @@ class CentralWidget(QtWidgets.QWidget):
     def delete_tab(self, index):
         self.tab_widget.removeTab(index)
 
-    def show_tabs(self):
+    # def show_tabs(self, index):    
+    #     selected_object_model = self.data_list.get_all()[index.row()]
+    #     for i in range(len(self.subtables)):
+    #         self.subhandler = FileHandler(self.data_list.metadata["linked_files"][i]).get_handler()
+    #         self.model = Model(self.subhandler, selected_object_model, self.data_list.metadata)
+    #         self.subtables[i].setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+    #         self.subtables[i].setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+    #         self.subtables[i].horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+    #         self.subtables[i].setModel(self.model)
+    #         self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons/tab_icon.png"), self.model.data_list.metadata["title"])
+
+    def show_tabs(self, index):    
+        selected_object_model = self.data_list.get_all()[index.row()]
         for i in range(len(self.subtables)):
             self.subhandler = FileHandler(self.data_list.metadata["linked_files"][i]).get_handler()
-            self.model = Model(self.subhandler)
+            # fiter test
+            filtered_data = []
+            for d in range(len(self.subhandler.data)):
+                current = ""
+                filter_sel = ""
+                for j in range(len(self.subhandler.metadata["key"])):
+                    for k in range(len(self.data_list.metadata["key"])):
+                        if self.subhandler.metadata["key"][j] == self.data_list.metadata["key"][k]:
+                            current += str(getattr(self.subhandler.data[d], self.subhandler.metadata["key"][j]))
+                            filter_sel += str(getattr(selected_object_model, self.data_list.metadata["key"][k]))
+                if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
+                    filtered_data.append(self.subhandler.data[d])
+
+            # fiter test /\              +         \/
+            self.model = Model(self.subhandler, filtered_data)
             self.subtables[i].setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
             self.subtables[i].setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
             self.subtables[i].horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
@@ -95,8 +116,7 @@ class CentralWidget(QtWidgets.QWidget):
     def insert_one(self, model):
         if model is not None:
             model.insertRows(1, 1, QtCore.QModelIndex())
-
-
+        
     def handle_header_menu(self):
         menu = QtWidgets.QMenu(self)
         delete = QtWidgets.QAction("Delete", menu)

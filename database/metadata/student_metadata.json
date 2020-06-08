@@ -4,7 +4,7 @@
     "collumns": [
         "oznaka_ustanove",
         "struka",
-        "broj_indeksa",
+        "indeks",
         "prezime",
         "ime_roditelja",
         "ime",
@@ -17,7 +17,7 @@
     "key": [
         "oznaka_ustanove",
         "struka",
-        "broj_indeksa"
+        "indeks"
     ],
     "linked_files": ["tok_studija_metadata.json"],
     "path_to_file": "student_data",

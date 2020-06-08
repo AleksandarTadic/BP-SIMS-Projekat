@@ -4,7 +4,7 @@ class Student:
         self.struka = struka
         self.indeks = indeks
         self.prezime = prezime
-        self.ime_rpditelja = ime_roditelja
+        self.ime_roditelja = ime_roditelja
         self.ime = ime
         self.pol = pol
         self.adresa_stanovanja = adresa_stanovanja

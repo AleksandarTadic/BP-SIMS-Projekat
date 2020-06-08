@@ -31,7 +31,7 @@ class MainWindow(QtWidgets.QMainWindow):
         dark = QtWidgets.QAction("Dark", theme)
         dark.triggered.connect(lambda : dark_theme(app))
         theme.addAction(dark)
-        dark_moon = QtWidgets.QAction("Dark Moon", theme)
+        dark_moon = QtWidgets.QAction("Midnight Blue", theme)
         dark_moon.triggered.connect(lambda : dark_moon_theme(app))
         theme.addAction(dark_moon)
         theme.addSection("Light Theme")
