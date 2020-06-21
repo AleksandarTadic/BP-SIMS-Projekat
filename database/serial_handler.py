@@ -1,9 +1,8 @@
-from database.data_handler import DataHandler
 import json
 import pickle
 
 
-class SerialHandler(DataHandler):
+class SerialHandler:
     def __init__(self, meta_filepath, filepath):
         super().__init__()
         self.filepath = "database/data/" + filepath
@@ -20,8 +19,7 @@ class SerialHandler(DataHandler):
             print(self.filepath)
             print("File nije pronadjen!")
             self.save_data()
-            print("File kreiran!")
-        
+            print("File kreiran!")    
         try:
             with open(self.meta_filepath, "rb") as meta_file:
                 self.metadata = json.load(meta_file)
@@ -83,5 +81,4 @@ class SerialHandler(DataHandler):
             if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                 filtered_data.append(self.data[d])
         return filtered_data
-
 

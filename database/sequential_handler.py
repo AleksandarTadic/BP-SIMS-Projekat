@@ -1,9 +1,7 @@
-from database.data_handler import DataHandler
 import json
 import pickle
 
-
-class SequentialHandler(DataHandler):
+class SequentialHandler:
     def __init__(self, meta_filepath, filepath):
         super().__init__()
         self.filepath = "database/data/" + filepath
