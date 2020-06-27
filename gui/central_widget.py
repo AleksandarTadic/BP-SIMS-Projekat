@@ -68,17 +68,6 @@ class CentralWidget(QtWidgets.QWidget):
     def delete_tab(self, index):
         self.tab_widget.removeTab(index)
 
-    # def show_tabs(self, index):    
-    #     selected_object_model = self.data_list.get_all()[index.row()]
-    #     for i in range(len(self.subtables)):
-    #         self.subhandler = FileHandler(self.data_list.metadata["linked_files"][i]).get_handler()
-    #         self.model = Model(self.subhandler, selected_object_model, self.data_list.metadata)
-    #         self.subtables[i].setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-    #         self.subtables[i].setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-    #         self.subtables[i].horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-    #         self.subtables[i].setModel(self.model)
-    #         self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons/tab_icon.png"), self.model.data_list.metadata["title"])
-
     def show_tabs(self, index):    
         selected_object_model = self.data_list.get_all()[index.row()]
         for i in range(len(self.subtables)):
@@ -86,16 +75,21 @@ class CentralWidget(QtWidgets.QWidget):
             # fiter test
             filtered_data = []
             for d in range(len(self.subhandler.data)):
+                print(d)
                 current = ""
                 filter_sel = ""
                 for j in range(len(self.subhandler.metadata["key"])):
                     for k in range(len(self.data_list.metadata["key"])):
                         if self.subhandler.metadata["key"][j] == self.data_list.metadata["key"][k]:
-                            current += str(getattr(self.subhandler.data[d], self.subhandler.metadata["key"][j]))
-                            filter_sel += str(getattr(selected_object_model, self.data_list.metadata["key"][k]))
+                            if self.subhandler.is_database():
+                                self.subhandler.data[d][self.subhandler.metadata["key"][j]]
+                                selected_object_model[self.data_list.metadata["key"][k]]
+                            else:
+                                current += str(getattr(self.subhandler.data[d], self.subhandler.metadata["key"][j]))
+                                filter_sel += str(getattr(selected_object_model, self.data_list.metadata["key"][k]))
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     filtered_data.append(self.subhandler.data[d])
-
+                print("test=", current," - ", filter_sel)
             # fiter test /\              +         \/
             self.model = Model(self.subhandler, filtered_data)
             self.subtables[i].setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)

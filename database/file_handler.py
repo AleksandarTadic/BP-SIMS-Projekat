@@ -1,6 +1,8 @@
 import json
 from database.sequential_handler import SequentialHandler
 from database.serial_handler import SerialHandler
+from database.database_handler import DatabaseHandler
+
 
 class FileHandler():
     def __init__(self, meta_filepath):
@@ -12,6 +14,8 @@ class FileHandler():
         except FileNotFoundError:
             print("Metadata file nije pronadjen!")
     def get_handler(self):
+        # if True:
+        #     return DatabaseHandler(self.meta_filepath, self.temp_metadata["db_table_name"])
         if self.temp_metadata["type"] == "sequential":
             return SequentialHandler(self.meta_filepath, self.temp_metadata["path_to_file"])
         else:

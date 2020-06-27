@@ -6,7 +6,10 @@
         "naziv"
     ],
     "key": ["oznaka_nivoa"],
+    "attr_type": ["int", "str"],
+    "attr_max": [2, 80],
     "linked_files": ["studijski_program_metadata.json"],
     "path_to_file": "nivo_studija_data",
-    "type": "serial"
+    "type": "serial",
+    "db_table_name": "nivo_studija"
 }

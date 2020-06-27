@@ -19,7 +19,10 @@
         "struka",
         "indeks"
     ],
+    "attr_type": ["str", "str", "str", "str", "str", "str", "str", "str", "str", "str", "date"],
+    "attr_max": [2, 2, 6, 20, 20, 20, 1, 80, 20, 13, false],
     "linked_files": ["tok_studija_metadata.json"],
     "path_to_file": "student_data",
-    "type": "sequential"
+    "type": "sequential",
+    "db_table_name": "studenti"
 }

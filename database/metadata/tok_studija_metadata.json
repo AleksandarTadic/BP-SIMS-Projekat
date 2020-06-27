@@ -27,7 +27,10 @@
         "blok",
         "redni_broj_upisa"
     ],
+    "attr_type": ["str", "str", "str", "str", "str", "int", "int", "int", "int", "date", "date", "int", "int"],
+    "attr_max": [2, 3, 2, 2, 6, 4, 1, 2, 2, false, false, 3, 3],
     "linked_files": [],
     "path_to_file": "tok_studija_data",
-    "type": "sequential"
+    "type": "sequential",
+    "db_table_name": "tok_studija"
 }

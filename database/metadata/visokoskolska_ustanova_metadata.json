@@ -7,7 +7,10 @@
         "adresa"
     ],
     "key": ["oznaka_ustanove"],
+    "attr_type": ["str", "str", "str"],
+    "attr_max": [2, 80, 80],
     "linked_files": ["student_metadata.json", "studijski_program_metadata.json", "nastavni_predmet_metadata.json"],
     "path_to_file": "visokoskolska_ustanova_data",
-    "type": "serial"
+    "type": "serial",
+    "db_table_name": "visokoskolska_ustanova"
 }

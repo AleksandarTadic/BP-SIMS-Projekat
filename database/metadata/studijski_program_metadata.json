@@ -12,7 +12,10 @@
         "oznaka_nivoa",
         "oznaka_programa"
     ],
+    "attr_type": ["str", "int", "str", "str"],
+    "attr_max": [2, 2, 3, 120],
     "linked_files": ["tok_studija_metadata.json", "plan_studijske_grupe_metadata.json"],
     "path_to_file": "studijski_program_data",
-    "type": "sequential"
+    "type": "sequential",
+    "db_table_name": "studijski_programi"
 }

@@ -82,3 +82,5 @@ class SerialHandler:
                 filtered_data.append(self.data[d])
         return filtered_data
 
+    def is_database(self):
+        return False

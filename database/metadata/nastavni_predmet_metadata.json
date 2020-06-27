@@ -11,7 +11,10 @@
         "oznaka_ustanove",
         "oznaka_predmeta"
     ],
+    "attr_type": ["str", "str", "str", "int"],
+    "attr_max": [2, 6, 120, 2],
     "linked_files": ["plan_studijske_grupe_metadata.json"],
     "path_to_file": "nastavni_predmet_data",
-    "type": "serial"
+    "type": "serial",
+    "db_table_name": "nastavni_predmet"
 }

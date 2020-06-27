@@ -100,3 +100,6 @@ class SequentialHandler:
         for i in range(len(self.metadata["key"])):
             primary_key += str(getattr(keys, (self.metadata["key"][i])))
         return primary_key
+
+    def is_database(self):
+        return False
