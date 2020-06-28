@@ -1,0 +1,36 @@
+{
+    "title": "Studenti",
+    "class": "Studenti",
+    "collumns": [
+        "ustanova",
+        "struka",
+        "broj_indeksa",
+        "prezime",
+        "ime_roditelja",
+        "ime",
+        "pol",
+        "adresa_stanovanja",
+        "telefon",
+        "jmbg",
+        "datum_rodjenja"
+    ],
+    "key": [
+        "ustanova",
+        "struka",
+        "indeks"
+    ],
+    "attr_type": ["str", "str", "str", "str", "str", "str", "str", "str", "str", "str", "date"],
+    "attr_max": [2, 2, 6, 20, 20, 20, 1, 80, 20, 13, false],
+    "linked_files": ["tok_studija_metadata.json"],
+    "show_subtable": true,
+    "linked_keys":[
+        {
+            "name": "TokStudija",
+            "fk": ["student_iz_ustanove", "struka", "broj_indeksa"],
+            "k": ["ustanova", "struka", "broj_indeksa"]
+        }
+    ],
+    "path_to_file": "studenti",
+    "type": "sequential",
+    "db_table_name": "studenti"
+}

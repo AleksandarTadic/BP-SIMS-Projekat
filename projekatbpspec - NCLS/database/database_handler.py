@@ -21,7 +21,7 @@ class DatabaseHandler:
     def connect(self):
         try:
             if self.connection == None:
-                self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="projekat", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
+                self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
         except pymysql.MySQLError as e:
             print(e)
 
@@ -78,7 +78,7 @@ class DatabaseHandler:
             self.connect()
             with self.connection.cursor() as cursor:
                 query = self.get_query(1)
-                obj = tuple(vars(obj).values())
+                # obj = tuple(vars(obj).values())
                 cursor.execute(query, obj)
                 self.connection.commit()
         except pymysql.MySQLError as e:

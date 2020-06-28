@@ -36,12 +36,9 @@ class Model(QtCore.QAbstractTableModel):
         self.selected_data = self.get_element(index)
         for i in range(len(self.data_list.metadata["collumns"])):
             if index.column() == i and role == QtCore.Qt.DisplayRole:
-                # doradjeno
-                if self.data_list.is_database():
-                    if self.data_list.metadata["attr_type"][i] == "date":
-                        return self.selected_data[self.data_list.metadata["collumns"][i]].strftime("%d.%m.%Y")
-                    return self.selected_data[self.data_list.metadata["collumns"][i]]
-                return getattr(self.selected_data, (self.data_list.metadata["collumns"][i]))
+                if self.data_list.metadata["attr_type"][i] == "date":
+                    return self.selected_data[self.data_list.metadata["collumns"][i]].strftime("%d.%m.%Y")
+                return self.selected_data[self.data_list.metadata["collumns"][i]]
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
         for i in range(len(self.data_list.metadata["collumns"])):
@@ -79,11 +76,13 @@ class Model(QtCore.QAbstractTableModel):
 
     def removeRows(self, row, rows, index=QtCore.QModelIndex()):
         selected_data = self.get_element(index)
+
         # zabrana za brisanje povezanih objekata
         connected_tables = []
         for i in self.data_list.metadata["linked_files"]:
-            c_model = FileHandler(i).get_handler()
+            c_model = FileHandler(i, self.data_list.is_database()).get_handler()
             connected_tables.append(c_model)
+            
         for i in connected_tables:
             for d in range(len(i.data)):
                 current = ""
@@ -91,15 +90,8 @@ class Model(QtCore.QAbstractTableModel):
                 for j in range(len(i.metadata["key"])):
                     for k in range(len(self.data_list.metadata["key"])):
                         if i.metadata["key"][j] == self.data_list.metadata["key"][k]:
-                            # doradjeno zbog baze
-                            # ne radi filter sa bazama
-                            if self.data_list.is_database():
-                                current += str(i.data[d][i.metadata["key"][j]])
-                                filter_sel += str(selected_data[self.data_list.metadata["key"][k]])
-
-                            else:
-                                current += str(getattr(i.data[d], i.metadata["key"][j]))
-                                filter_sel += str(getattr(selected_data, self.data_list.metadata["key"][k]))
+                            current += str(i.data[d][i.metadata["key"][j]])
+                            filter_sel += str(selected_data[self.data_list.metadata["key"][k]])
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
                     return False
@@ -119,7 +111,7 @@ class Model(QtCore.QAbstractTableModel):
         # dodato filter 
         if self.filtered_data is not None:
             self.filtered_data.append(obj)
-        # 
+        # treba za baze proveriti da se ne moze dodati kljuc koji ne potoji
         self.endInsertRows()
         return True
 

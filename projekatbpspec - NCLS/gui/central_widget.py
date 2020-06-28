@@ -72,25 +72,43 @@ class CentralWidget(QtWidgets.QWidget):
         selected_object_model = self.data_list.get_all()[index.row()]
         for i in range(len(self.subtables)):
             self.subhandler = FileHandler(self.data_list.metadata["linked_files"][i]).get_handler()
+
             # fiter test
             filtered_data = []
+            # for d in range(len(self.subhandler.get_all())):
+            #     print(self.subhandler.get_all()[d])
+            #     current = ""
+            #     filter_sel = ""
+            #     for j in range(len(self.subhandler.metadata["key"])):
+            #         for k in range(len(self.data_list.metadata["key"])):
+            #             if self.subhandler.metadata["key"][j] == self.data_list.metadata["key"][k]:
+            #                 print("tacno")
+            #                 current += self.subhandler.get_all()[d][self.subhandler.metadata["key"][j]]
+            #                 filter_sel += selected_object_model[self.data_list.metadata["key"][k]]
+            #     if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
+            #         filtered_data.append(self.subhandler.data[d])
+            #         print("test=", current," - ", filter_sel)
+
+
+            # doradeno 
             for d in range(len(self.subhandler.get_all())):
-                print(self.subhandler.get_all()[d])
                 current = ""
                 filter_sel = ""
-                for j in range(len(self.subhandler.metadata["key"])):
-                    for k in range(len(self.data_list.metadata["key"])):
-                        if self.subhandler.metadata["key"][j] == self.data_list.metadata["key"][k]:
-                            print("tacno")
-                            if self.subhandler.is_database():
-                                current += self.subhandler.get_all()[d][self.subhandler.metadata["key"][j]]
-                                filter_sel += selected_object_model[self.data_list.metadata["key"][k]]
-                            else:
-                                current += str(getattr(self.subhandler.data[d], self.subhandler.metadata["key"][j]))
-                                filter_sel += str(getattr(selected_object_model, self.data_list.metadata["key"][k]))
+
+                if self.data_list.metadata["linked_keys"] != False:
+                    linked_keys = self.data_list.metadata["linked_keys"]
+                    for j in range(len(linked_keys)):
+                        if linked_keys[j]["name"] == self.subhandler.metadata["class"]:
+                            for k in range(len(linked_keys[j]["fk"])):
+                                print(linked_keys[j]["k"][k])
+                                current += self.subhandler.get_all()[d][linked_keys[j]["k"][k]]
+
+                                filter_sel += selected_object_model[linked_keys[j]["k"][k]]
+
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     filtered_data.append(self.subhandler.data[d])
                     print("test=", current," - ", filter_sel)
+            
             # fiter test /\              +         \/
             self.model = Model(self.subhandler, filtered_data)
             self.subtables[i].setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
