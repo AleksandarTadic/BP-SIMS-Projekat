@@ -85,13 +85,27 @@ class Model(QtCore.QAbstractTableModel):
             
         for i in connected_tables:
             for d in range(len(i.data)):
+
                 current = ""
                 filter_sel = ""
-                for j in range(len(i.metadata["key"])):
-                    for k in range(len(self.data_list.metadata["key"])):
-                        if i.metadata["key"][j] == self.data_list.metadata["key"][k]:
-                            current += str(i.data[d][i.metadata["key"][j]])
-                            filter_sel += str(selected_data[self.data_list.metadata["key"][k]])
+
+                # for j in range(len(i.metadata["key"])):
+                #     for k in range(len(self.data_list.metadata["key"])):
+                #         if i.metadata["key"][j] == self.data_list.metadata["key"][k]:
+                #             current += str(i.data[d][i.metadata["key"][j]])
+                #             filter_sel += str(selected_data[self.data_list.metadata["key"][k]])
+                # if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
+                #     self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
+                #     return False
+
+                if self.data_list.metadata["linked_keys"] != False:
+                    linked_keys = self.data_list.metadata["linked_keys"]
+                    for j in range(len(linked_keys)):
+                        if linked_keys[j]["name"] == i.metadata["class"]:
+                            for k in range(len(linked_keys[j]["fk"])):
+                                #  treba da radi
+                                current += i.get_all()[d][linked_keys[j]["fk"][k]]
+                                filter_sel += selected_data[linked_keys[j]["k"][k]]
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
                     return False
