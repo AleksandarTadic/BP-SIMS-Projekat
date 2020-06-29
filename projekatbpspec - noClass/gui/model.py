@@ -36,8 +36,8 @@ class Model(QtCore.QAbstractTableModel):
         self.selected_data = self.get_element(index)
         for i in range(len(self.data_list.metadata["collumns"])):
             if index.column() == i and role == QtCore.Qt.DisplayRole:
-                if self.data_list.metadata["attr_type"][i] == "date":
-                    return self.selected_data[self.data_list.metadata["collumns"][i]].strftime("%d.%m.%Y")
+                # if self.data_list.metadata["attr_type"][i] == "date":
+                #     return self.selected_data[self.data_list.metadata["collumns"][i]].strftime("%d.%m.%Y")
                 return self.selected_data[self.data_list.metadata["collumns"][i]]
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
@@ -85,7 +85,6 @@ class Model(QtCore.QAbstractTableModel):
             
         for i in connected_tables:
             for d in range(len(i.data)):
-
                 current = ""
                 filter_sel = ""
 
@@ -103,7 +102,6 @@ class Model(QtCore.QAbstractTableModel):
                     for j in range(len(linked_keys)):
                         if linked_keys[j]["name"] == i.metadata["class"]:
                             for k in range(len(linked_keys[j]["fk"])):
-                                #  treba da radi
                                 current += i.get_all()[d][linked_keys[j]["fk"][k]]
                                 filter_sel += selected_data[linked_keys[j]["k"][k]]
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):

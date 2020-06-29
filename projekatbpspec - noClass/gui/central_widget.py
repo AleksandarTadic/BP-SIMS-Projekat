@@ -100,10 +100,8 @@ class CentralWidget(QtWidgets.QWidget):
                     for j in range(len(linked_keys)):
                         if linked_keys[j]["name"] == self.subhandler.metadata["class"]:
                             for k in range(len(linked_keys[j]["fk"])):
-                                #  treba da radi
                                 current += self.subhandler.get_all()[d][linked_keys[j]["fk"][k]]
                                 filter_sel += selected_object_model[linked_keys[j]["k"][k]]
-
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     filtered_data.append(self.subhandler.data[d])
                     print("test=", current," - ", filter_sel)

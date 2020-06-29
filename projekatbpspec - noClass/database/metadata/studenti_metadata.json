@@ -17,7 +17,7 @@
     "key": [
         "ustanova",
         "struka",
-        "indeks"
+        "broj_indeksa"
     ],
     "attr_type": ["str", "str", "str", "str", "str", "str", "str", "str", "str", "str", "date"],
     "attr_max": [2, 2, 6, 20, 20, 20, 1, 80, 20, 13, false],
