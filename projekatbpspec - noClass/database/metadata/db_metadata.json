@@ -1,0 +1,11 @@
+{
+    "database": [
+        "nastavni_predmet",
+        "nivo_studija",
+        "plan_studijske_grupe",
+        "studenti",
+        "studijski_programi",
+        "tok_studija",
+        "visokoskolska_ustanova"
+    ]
+}

@@ -73,24 +73,7 @@ class CentralWidget(QtWidgets.QWidget):
         for i in range(len(self.subtables)):
             self.subhandler = FileHandler(self.data_list.metadata["linked_files"][i]).get_handler()
 
-            # fiter test
             filtered_data = []
-            # for d in range(len(self.subhandler.get_all())):
-            #     print(self.subhandler.get_all()[d])
-            #     current = ""
-            #     filter_sel = ""
-            #     for j in range(len(self.subhandler.metadata["key"])):
-            #         for k in range(len(self.data_list.metadata["key"])):
-            #             if self.subhandler.metadata["key"][j] == self.data_list.metadata["key"][k]:
-            #                 print("tacno")
-            #                 current += self.subhandler.get_all()[d][self.subhandler.metadata["key"][j]]
-            #                 filter_sel += selected_object_model[self.data_list.metadata["key"][k]]
-            #     if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
-            #         filtered_data.append(self.subhandler.data[d])
-            #         print("test=", current," - ", filter_sel)
-
-
-            # doradjeno 
             for d in range(len(self.subhandler.get_all())):
                 current = ""
                 filter_sel = ""
@@ -104,9 +87,7 @@ class CentralWidget(QtWidgets.QWidget):
                                 filter_sel += selected_object_model[linked_keys[j]["k"][k]]
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     filtered_data.append(self.subhandler.data[d])
-                    print("test=", current," - ", filter_sel)
             
-            # fiter test /\              +         \/
             self.model = Model(self.subhandler, filtered_data)
             self.subtables[i].setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
             self.subtables[i].setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)

@@ -1,4 +1,3 @@
-# from database.data_handler import DataHandler
 import pymysql
 import json
 # from klase.nivo_studija import NivoStudija
@@ -78,7 +77,7 @@ class DatabaseHandler:
             self.connect()
             with self.connection.cursor() as cursor:
                 query = self.get_query(1)
-                # obj = tuple(vars(obj).values())
+                obj = tuple(obj.values())
                 cursor.execute(query, obj)
                 self.connection.commit()
         except pymysql.MySQLError as e:
