@@ -116,7 +116,11 @@ class Model(QtCore.QAbstractTableModel):
         obj = forma.get_object()
         if obj is None:
             return False
-        self.data_list.insert(obj)
+        try:
+            self.data_list.insert(obj)
+        except ValueError:
+            self.message_box("Pokusavate da unesete nepostojeci povezani podatak!\nMolimo proverite podatke.")
+            return False
         # dodato filter 
         if self.filtered_data is not None:
             self.filtered_data.append(obj)

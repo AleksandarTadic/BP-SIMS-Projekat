@@ -100,7 +100,7 @@ class MainWindow(QtWidgets.QMainWindow):
           
             central_widget = QtWidgets.QTabWidget(self)
             data_list = FileHandler(metadata_path).get_handler()
-            status_bar.showMessage("Otvorili ste " + data_list.metadata["title"].lower() + "!          Tip: " + data_list.metadata["type"])
+            status_bar.showMessage("Otvorili ste " + data_list.metadata["title"].lower() + "!          Tip: " + data_list.metadata["type"].capitalize())
             central_workspace = CentralWidget(central_widget, data_list)
             central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), data_list.metadata["title"].capitalize())
             self.setCentralWidget(central_widget)

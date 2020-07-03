@@ -77,15 +77,14 @@ class DatabaseHandler:
             with self.connection.cursor() as cursor:
                 query = self.get_query(1)
                 obj = tuple(obj.values())
-                print(obj)
                 cursor.execute(query, obj)
                 self.connection.commit()
         except pymysql.MySQLError as e:
             print(e)
+            raise ValueError
         finally:
             self.disconect()
             self.connection = None
-            # ovo je test za load_data 
             self.load_data()
 
     def delete_one(self, obj):
@@ -105,7 +104,6 @@ class DatabaseHandler:
         finally:
             self.disconect()
             self.connection = None
-            # ovo je test za load_data
             self.load_data()
 
     def edit(self, obj, attr, value):
@@ -113,7 +111,6 @@ class DatabaseHandler:
             self.connect()
             with self.connection.cursor() as cursor:
                 query = self.get_query(3, attr, str(value))
-                print(query)
                 primary_keys = []
                 for i in self.metadata["key"]:
                     t = obj[i]
@@ -126,7 +123,6 @@ class DatabaseHandler:
         finally:
             self.disconect()
             self.connection = None
-            # ovo je test za load_data
             self.load_data()
 
     def get_query(self, num, col=None, value=None):
@@ -147,7 +143,6 @@ class DatabaseHandler:
                     query += ("%s" + ", ")
             query = query[:-2]
             query += ")"
-            print(query)
             return query
         elif num == 2:
             query = "DELETE FROM " + self.table + " WHERE "
