@@ -66,12 +66,12 @@ class MainWindow(QtWidgets.QMainWindow):
         db = db["database"]
         database_dock = QtWidgets.QDockWidget("Database dock", self)
         database_dock.setMaximumWidth(250)
-        lista = QtWidgets.QListWidget()
+        db_list = QtWidgets.QListWidget()
         for i in range(len(db)):
             item = QtWidgets.QListWidgetItem(db[i])
             item.setIcon(QtGui.QIcon("icons/db-icon.png"))
-            lista.addItem(item)
-        database_dock.setWidget(lista)
+            db_list.addItem(item)
+        database_dock.setWidget(db_list)
 
         toggle_structure_dock_action = structure_dock.toggleViewAction()
         view_menu.addAction(toggle_structure_dock_action)
@@ -82,6 +82,7 @@ class MainWindow(QtWidgets.QMainWindow):
             return self.showNormal()
 
         def open_database(index):
+            tree_view.clearSelection()
             metadata_path = index.text() + "_metadata.json"        
             central_widget = QtWidgets.QTabWidget(self)
             data_list = FileHandler(metadata_path, True).get_handler()
@@ -90,9 +91,10 @@ class MainWindow(QtWidgets.QMainWindow):
             central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), data_list.metadata["title"].capitalize())
             self.setCentralWidget(central_widget)
 
-        lista.itemClicked.connect(open_database)
+        db_list.itemClicked.connect(open_database)
 
         def file_clicked(index):
+            db_list.clearSelection()
             file_path = os.path.basename(file_system_model.filePath(index))
             metadata_path = file_path + "_metadata.json"
           

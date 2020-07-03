@@ -20,6 +20,11 @@
             "name": "TokStudija",
             "fk": ["ustanova", "oznaka_programa"],
             "k": ["ustanova", "oznaka_programa"]
+        },
+        {
+            "name": "PlanStudijskeGrupe",
+            "fk": ["program_ustanove", "oznaka_programa"],
+            "k": ["ustanova", "oznaka_programa"]
         }
     ],
     "path_to_file": "studijski_programi",

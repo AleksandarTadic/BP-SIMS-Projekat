@@ -1,7 +1,7 @@
 import json
-from database.sequential_handler import SequentialHandler
-from database.serial_handler import SerialHandler
-from database.database_handler import DatabaseHandler
+from database.handlers.sequential_handler import SequentialHandler
+from database.handlers.serial_handler import SerialHandler
+from database.handlers.database_handler import DatabaseHandler
 
 
 class FileHandler():

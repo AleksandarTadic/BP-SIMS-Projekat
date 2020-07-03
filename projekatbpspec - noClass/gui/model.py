@@ -36,8 +36,9 @@ class Model(QtCore.QAbstractTableModel):
         self.selected_data = self.get_element(index)
         for i in range(len(self.data_list.metadata["collumns"])):
             if index.column() == i and role == QtCore.Qt.DisplayRole:
-                # if self.data_list.metadata["attr_type"][i] == "date":
-                #     return self.selected_data[self.data_list.metadata["collumns"][i]].strftime("%d.%m.%Y")
+                if self.data_list.is_database():
+                    if self.data_list.metadata["attr_type"][i] == "date":
+                        return self.selected_data[self.data_list.metadata["collumns"][i]].strftime("%d.%m.%Y")
                 return self.selected_data[self.data_list.metadata["collumns"][i]]
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
@@ -66,6 +67,11 @@ class Model(QtCore.QAbstractTableModel):
                         value = value.replace(".","").strip()
                         date = datetime.datetime.strptime(value, "%d%m%Y").date()
                         date = date.strftime("%d.%m.%Y")
+                        # test
+                        if self.data_list.is_database():
+                            value = value.replace(".","").strip()
+                            date = datetime.datetime.strptime(value, "%d%m%Y").date()
+                            date = date.strftime("%Y-%m-%d")
                         value = date
                     except Exception:
                         self.message_box("Format za datum mora biti: dd.mm.yyyy!")
