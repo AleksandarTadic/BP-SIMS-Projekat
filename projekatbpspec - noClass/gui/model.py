@@ -38,7 +38,14 @@ class Model(QtCore.QAbstractTableModel):
             if index.column() == i and role == QtCore.Qt.DisplayRole:
                 if self.data_list.is_database():
                     if self.data_list.metadata["attr_type"][i] == "date":
-                        return self.selected_data[self.data_list.metadata["collumns"][i]].strftime("%d.%m.%Y")
+                        try:
+                            date = datetime.datetime.strptime(str(self.selected_data[self.data_list.metadata["collumns"][i]]), "%Y-%m-%d").date()
+                            date = date.strftime("%d.%m.%Y")
+                            return self.selected_data[self.data_list.metadata["collumns"][i]].strftime("%d.%m.%Y")
+                        except ValueError:
+                            date = datetime.datetime.strptime(str(self.selected_data[self.data_list.metadata["collumns"][i]]), "%d-%m-%Y").date()
+                            date = date.strftime("%d.%m.%Y")
+                            return date
                 return self.selected_data[self.data_list.metadata["collumns"][i]]
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):

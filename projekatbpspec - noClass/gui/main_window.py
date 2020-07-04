@@ -13,7 +13,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__()
         self.resize(1000, 600)
         self.setWindowTitle("Editor generickih podataka")
-        self.setWindowIcon(QtGui.QIcon("icons/angry.ico"))
+        self.setWindowIcon(QtGui.QIcon("icons/icon.ico"))
 
         menu_bar = QtWidgets.QMenuBar(self)
 
