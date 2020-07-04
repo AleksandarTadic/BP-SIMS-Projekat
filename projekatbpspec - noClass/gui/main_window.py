@@ -46,7 +46,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         central_widget = QtWidgets.QTabWidget(self)
 
-        structure_dock = QtWidgets.QDockWidget("Structure dock", self)
+        structure_dock = QtWidgets.QDockWidget("Local Files Dock", self)
 
         file_system_model = QtWidgets.QFileSystemModel()
         file_system_model.setRootPath(QtCore.QDir.currentPath())
@@ -64,7 +64,7 @@ class MainWindow(QtWidgets.QMainWindow):
         with open("database/metadata/db_metadata.json", "r") as f:
             db = json.load(f)
         db = db["database"]
-        database_dock = QtWidgets.QDockWidget("Database dock", self)
+        database_dock = QtWidgets.QDockWidget("Database Dock", self)
         database_dock.setMaximumWidth(250)
         db_list = QtWidgets.QListWidget()
         for i in range(len(db)):
@@ -72,6 +72,11 @@ class MainWindow(QtWidgets.QMainWindow):
             item.setIcon(QtGui.QIcon("icons/db-icon.png"))
             db_list.addItem(item)
         database_dock.setWidget(db_list)
+
+        toggle_database_dock_action = database_dock.toggleViewAction()
+        view_menu.addAction(toggle_database_dock_action)
+
+
 
         toggle_structure_dock_action = structure_dock.toggleViewAction()
         view_menu.addAction(toggle_structure_dock_action)
