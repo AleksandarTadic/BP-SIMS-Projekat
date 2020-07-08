@@ -2,14 +2,24 @@
     "title": "Nivo studija",
     "class": "NivoStudija",
     "collumns": [
-        "oznaka_nivoa",
+        "oznaka",
         "naziv"
     ],
-    "key": ["oznaka_nivoa"],
+    "key": [
+        "oznaka"
+    ],
     "attr_type": ["int", "str"],
     "attr_max": [2, 80],
-    "linked_files": ["studijski_program_metadata.json"],
-    "path_to_file": "nivo_studija_data",
+    "linked_files": ["studijski_programi_metadata.json"],
+    "show_subtable": false,
+    "linked_keys":[
+        {
+            "name": "StudijskiProgrami",
+            "fk": ["nivo"],
+            "k": ["oznaka"]
+        }
+    ],
+    "path_to_file": "nivo_studija",
     "type": "serial",
     "db_table_name": "nivo_studija"
 }

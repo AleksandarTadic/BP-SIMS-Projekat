@@ -2,11 +2,11 @@
     "title": "Tok studija",
     "class": "TokStudija",
     "collumns": [
-        "oznaka_ustanove",
+        "ustanova",
         "oznaka_programa",
         "student_iz_ustanove",
         "struka",
-        "indeks",
+        "broj_indeksa",
         "skolska_godina",
         "godina_studija",
         "blok",
@@ -17,11 +17,11 @@
         "espb_krajnji"
     ],
     "key": [
-        "oznaka_ustanove",
+        "ustanova",
         "oznaka_programa",
         "student_iz_ustanove",
         "struka",
-        "indeks",
+        "broj_indeksa",
         "skolska_godina",
         "godina_studija",
         "blok",
@@ -30,7 +30,9 @@
     "attr_type": ["str", "str", "str", "str", "str", "int", "int", "int", "int", "date", "date", "int", "int"],
     "attr_max": [2, 3, 2, 2, 6, 4, 1, 2, 2, false, false, 3, 3],
     "linked_files": [],
-    "path_to_file": "tok_studija_data",
+    "show_subtable": false,
+    "linked_keys": false,
+    "path_to_file": "tok_studija",
     "type": "sequential",
     "db_table_name": "tok_studija"
 }

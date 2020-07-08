@@ -2,15 +2,35 @@
     "title": "Viskoskolska ustanova",
     "class": "VisokoskolskaUStanova",
     "collumns": [
-        "oznaka_ustanove",
+        "oznaka",
         "naziv",
         "adresa"
     ],
-    "key": ["oznaka_ustanove"],
+    "key": [
+        "oznaka"
+    ],
     "attr_type": ["str", "str", "str"],
     "attr_max": [2, 80, 80],
-    "linked_files": ["student_metadata.json", "studijski_program_metadata.json", "nastavni_predmet_metadata.json"],
-    "path_to_file": "visokoskolska_ustanova_data",
+    "linked_files": ["studenti_metadata.json", "studijski_programi_metadata.json", "nastavni_predmet_metadata.json"],
+    "show_subtable": true,
+    "linked_keys":[
+        {
+            "name": "NastavniPredmet",
+            "fk": ["ustanova"],
+            "k": ["oznaka"]
+        },
+        {
+            "name": "StudijskiProgrami",
+            "fk": ["ustanova"],
+            "k": ["oznaka"]
+        },
+        {
+            "name": "Studenti",
+            "fk": ["ustanova"],
+            "k": ["oznaka"]
+        }
+    ],
+    "path_to_file": "visokoskolska_ustanova",
     "type": "serial",
     "db_table_name": "visokoskolska_ustanova"
 }

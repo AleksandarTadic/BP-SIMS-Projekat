@@ -13,9 +13,10 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__()
         self.resize(1000, 600)
         self.setWindowTitle("Editor generickih podataka")
-        self.setWindowIcon(QtGui.QIcon("icons/angry.ico"))
+        self.setWindowIcon(QtGui.QIcon())
 
         menu_bar = QtWidgets.QMenuBar(self)
+
         view_menu = QtWidgets.QMenu("View", menu_bar)
         help_menu = QtWidgets.QAction("Help", menu_bar)
         help_menu.triggered.connect(Help)
@@ -45,7 +46,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         central_widget = QtWidgets.QTabWidget(self)
 
-        structure_dock = QtWidgets.QDockWidget("Structure dock", self)
+        structure_dock = QtWidgets.QDockWidget("Local Files Dock", self)
 
         file_system_model = QtWidgets.QFileSystemModel()
         file_system_model.setRootPath(QtCore.QDir.currentPath())
@@ -58,6 +59,25 @@ class MainWindow(QtWidgets.QMainWindow):
         structure_dock.setWidget(tree_view)
         structure_dock.setMaximumWidth(250)
 
+
+        # db dock
+        with open("database/metadata/db_metadata.json", "r") as f:
+            db = json.load(f)
+        db = db["database"]
+        database_dock = QtWidgets.QDockWidget("Database Dock", self)
+        database_dock.setMaximumWidth(250)
+        db_list = QtWidgets.QListWidget()
+        for i in range(len(db)):
+            item = QtWidgets.QListWidgetItem(db[i])
+            item.setIcon(QtGui.QIcon("icons/db-icon.png"))
+            db_list.addItem(item)
+        database_dock.setWidget(db_list)
+
+        toggle_database_dock_action = database_dock.toggleViewAction()
+        view_menu.addAction(toggle_database_dock_action)
+
+
+
         toggle_structure_dock_action = structure_dock.toggleViewAction()
         view_menu.addAction(toggle_structure_dock_action)
 
@@ -66,21 +86,28 @@ class MainWindow(QtWidgets.QMainWindow):
                 return self.showFullScreen()
             return self.showNormal()
 
-        def file_clicked(index):
-            file_path = os.path.basename(file_system_model.filePath(index))
-            metadata_path = file_path.replace("_data","_metadata.json")
-
-            # def delete_tab(index):
-            #     central_widget.removeTab(index)
-            #     status_bar.showMessage("Zatvorili ste " + file_path.replace("_data", "e") + "!")
-               
+        def open_database(index):
+            tree_view.clearSelection()
+            metadata_path = index.text() + "_metadata.json"        
             central_widget = QtWidgets.QTabWidget(self)
-            data_list = FileHandler(metadata_path).get_handler()
-            status_bar.showMessage("Otvorili ste " + data_list.metadata["title"].lower() + "!          Tip: " + data_list.metadata["type"])
+            data_list = FileHandler(metadata_path, True).get_handler()
+            status_bar.showMessage("Otvorili ste " + data_list.metadata["title"].lower() + "!          Tip: " + "Database")
             central_workspace = CentralWidget(central_widget, data_list)
             central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), data_list.metadata["title"].capitalize())
-            # central_widget.setTabsClosable(True)
-            # central_widget.tabCloseRequested.connect(delete_tab)
+            self.setCentralWidget(central_widget)
+
+        db_list.itemClicked.connect(open_database)
+
+        def file_clicked(index):
+            db_list.clearSelection()
+            file_path = os.path.basename(file_system_model.filePath(index))
+            metadata_path = file_path + "_metadata.json"
+          
+            central_widget = QtWidgets.QTabWidget(self)
+            data_list = FileHandler(metadata_path).get_handler()
+            status_bar.showMessage("Otvorili ste " + data_list.metadata["title"].lower() + "!          Tip: " + data_list.metadata["type"].capitalize())
+            central_workspace = CentralWidget(central_widget, data_list)
+            central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), data_list.metadata["title"].capitalize())
             self.setCentralWidget(central_widget)
 
         tree_view.clicked.connect(file_clicked)
@@ -90,5 +117,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setMenuBar(menu_bar)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, structure_dock)
+
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, database_dock)
+
         self.setCentralWidget(central_widget)
         self.setStatusBar(status_bar)

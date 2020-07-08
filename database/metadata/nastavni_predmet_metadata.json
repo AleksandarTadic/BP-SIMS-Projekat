@@ -2,19 +2,27 @@
     "title": "Nastavni predmet",
     "class": "NastavniPredmet",
     "collumns": [
-        "oznaka_ustanove",
-        "oznaka_predmeta",
+        "ustanova",
+        "oznaka",
         "naziv",
         "espb"
     ],
     "key": [
-        "oznaka_ustanove",
-        "oznaka_predmeta"
+        "ustanova",
+        "oznaka"
     ],
     "attr_type": ["str", "str", "str", "int"],
     "attr_max": [2, 6, 120, 2],
     "linked_files": ["plan_studijske_grupe_metadata.json"],
-    "path_to_file": "nastavni_predmet_data",
+    "show_subtable": false,
+    "linked_keys":[
+        {
+            "name": "PlanStudijskeGrupe",
+            "fk": ["ustanova_predmet", "oznaka_predmeta"],
+            "k": ["ustanova", "oznaka"]
+        }
+    ],
+    "path_to_file": "nastavni_predmet",
     "type": "serial",
     "db_table_name": "nastavni_predmet"
 }
