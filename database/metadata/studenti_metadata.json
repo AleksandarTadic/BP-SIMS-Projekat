@@ -30,7 +30,7 @@
             "k": ["ustanova", "struka", "broj_indeksa"]
         }
     ],
-    "path_to_file": "studenti",
+    "path_to_file": "studenti.txt",
     "type": "sequential",
     "db_table_name": "studenti"
 }

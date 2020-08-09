@@ -30,7 +30,7 @@
             "k": ["oznaka"]
         }
     ],
-    "path_to_file": "visokoskolska_ustanova",
+    "path_to_file": "visokoskolska_ustanova.txt",
     "type": "serial",
     "db_table_name": "visokoskolska_ustanova"
 }

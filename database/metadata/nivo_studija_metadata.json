@@ -19,7 +19,7 @@
             "k": ["oznaka"]
         }
     ],
-    "path_to_file": "nivo_studija",
+    "path_to_file": "nivo_studija.txt",
     "type": "serial",
     "db_table_name": "nivo_studija"
 }

@@ -63,6 +63,7 @@ class Model(QtCore.QAbstractTableModel):
                 if self.data_list.metadata["attr_type"][i] == "int":
                     try:
                         value = int(value)
+                        value = str(value)
                     except Exception:
                         self.message_box("Za ovo polje je nephodno uneti broj!")
                         return False
@@ -91,25 +92,26 @@ class Model(QtCore.QAbstractTableModel):
     def removeRows(self, row, rows, index=QtCore.QModelIndex()):
         selected_data = self.get_element(index)
         # zabrana za brisanje povezanih objekata
-        connected_tables = []
-        for i in self.data_list.metadata["linked_files"]:
-            c_model = FileHandler(i, self.data_list.is_database()).get_handler()
-            connected_tables.append(c_model)
-            
-        for i in connected_tables:
-            for d in range(len(i.data)):
-                current = ""
-                filter_sel = ""
-                if self.data_list.metadata["linked_keys"] != False:
-                    linked_keys = self.data_list.metadata["linked_keys"]
-                    for j in range(len(linked_keys)):
-                        if linked_keys[j]["name"] == i.metadata["class"]:
-                            for k in range(len(linked_keys[j]["fk"])):
-                                current += i.get_all()[d][linked_keys[j]["fk"][k]]
-                                filter_sel += selected_data[linked_keys[j]["k"][k]]
-                if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
-                    self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
-                    return False
+        if self.data_list.metadata["type"] != "serial":
+            connected_tables = []
+            for i in self.data_list.metadata["linked_files"]:
+                c_model = FileHandler(i, self.data_list.is_database()).get_handler()
+                connected_tables.append(c_model)
+                
+            for i in connected_tables:
+                for d in range(len(i.data)):
+                    current = ""
+                    filter_sel = ""
+                    if self.data_list.metadata["linked_keys"] != False:
+                        linked_keys = self.data_list.metadata["linked_keys"]
+                        for j in range(len(linked_keys)):
+                            if linked_keys[j]["name"] == i.metadata["class"]:
+                                for k in range(len(linked_keys[j]["fk"])):
+                                    current += i.get_all()[d][linked_keys[j]["fk"][k]]
+                                    filter_sel += selected_data[linked_keys[j]["k"][k]]
+                    if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
+                        self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
+                        return False
         # 
         self.data_list.delete_one(self.get_element(index))
         self.beginRemoveRows(QtCore.QModelIndex(), row, row + rows - 1)
@@ -135,14 +137,14 @@ class Model(QtCore.QAbstractTableModel):
         # treba za baze proveriti da se ne moze dodati kljuc koji ne potoji
         self.endInsertRows()
         return True
-        self.emit()
 
     def flags(self, index):
-        for i in range(len(self.data_list.metadata["collumns"])):
-            for j in range(len(self.data_list.metadata["key"])):
-                if self.data_list.metadata["collumns"][i] == self.data_list.metadata["key"][j]:
-                    if index.column() == i:
-                        return ~QtCore.Qt.ItemIsEditable
+        if self.data_list.metadata["type"] != "serial":
+            for i in range(len(self.data_list.metadata["collumns"])):
+                for j in range(len(self.data_list.metadata["key"])):
+                    if self.data_list.metadata["collumns"][i] == self.data_list.metadata["key"][j]:
+                        if index.column() == i:
+                            return ~QtCore.Qt.ItemIsEditable
         return super().flags(index) | QtCore.Qt.ItemIsEditable
 
     def message_box(self, text):

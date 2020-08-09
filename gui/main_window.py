@@ -90,7 +90,7 @@ class MainWindow(QtWidgets.QMainWindow):
             tree_view.clearSelection()
             metadata_path = index.text() + "_metadata.json"        
             central_widget = QtWidgets.QTabWidget(self)
-            data_list = FileHandler(metadata_path, True).get_handler()
+            data_list = FileHandler(metadata_path, index.text()).get_handler()
             status_bar.showMessage("Otvorili ste " + data_list.metadata["title"].lower() + "!          Tip: " + "Database")
             central_workspace = CentralWidget(central_widget, data_list)
             central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), data_list.metadata["title"].capitalize())
@@ -100,7 +100,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         def file_clicked(index):
             db_list.clearSelection()
-            file_path = os.path.basename(file_system_model.filePath(index))
+            file_path = os.path.basename(file_system_model.filePath(index)).replace(".txt", "")
             metadata_path = file_path + "_metadata.json"
           
             central_widget = QtWidgets.QTabWidget(self)

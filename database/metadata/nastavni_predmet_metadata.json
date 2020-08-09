@@ -22,7 +22,7 @@
             "k": ["ustanova", "oznaka"]
         }
     ],
-    "path_to_file": "nastavni_predmet",
+    "path_to_file": "nastavni_predmet.txt",
     "type": "serial",
     "db_table_name": "nastavni_predmet"
 }

@@ -43,7 +43,7 @@ class Form(QtWidgets.QDialog):
                     return
                 self.new_object[self.data_type.metadata["collumns"][i]] = self.q_line_edit_list[i].text()
             elif self.data_type.metadata["attr_type"][i] == "int":
-                self.new_object[self.data_type.metadata["collumns"][i]] = self.q_line_edit_list[i].value()
+                self.new_object[self.data_type.metadata["collumns"][i]] = str(self.q_line_edit_list[i].value())
             elif self.data_type.metadata["attr_type"][i] == "date":
                 value = self.q_line_edit_list[i].date().toString(QtCore.Qt.ISODate)
                 date = datetime.datetime.strptime(value, "%Y-%m-%d").date()
@@ -52,12 +52,12 @@ class Form(QtWidgets.QDialog):
                 else:
                     date = date.strftime("%d.%m.%Y")
                 self.new_object[self.data_type.metadata["collumns"][i]] = date
-
-        for i in self.data_type.data:
-            if self.data_type.concat(i) == self.data_type.concat(self.new_object):
-                self.message_box("Kljuc je zauzet!")
-                self.new_object = None
-                return
+        if self.data_type.metadata["type"] != "serial":
+            for i in self.data_type.data:
+                if self.data_type.concat(i) == self.data_type.concat(self.new_object):
+                    self.message_box("Kljuc je zauzet!")
+                    self.new_object = None
+                    return
 
         self.close()
 

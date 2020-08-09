@@ -12,24 +12,25 @@ class SequentialHandler:
 
     def load_data(self):
         try:
-            with open(self.filepath, "rb") as dfile:
-                self.data = pickle.load(dfile)
-        except FileNotFoundError:
-            print(self.filepath)
-            print("File nije pronadjen!")
-            self.save_data()
-            print("File kreiran!")
-        
-        try:
-            with open(self.meta_filepath, "rb") as meta_file:
+            with open(self.meta_filepath, "r") as meta_file:
                 self.metadata = json.load(meta_file)
         except FileNotFoundError:
-            print(self.meta_filepath)
             print("Meta file nije pronadjen!")
+        try:
+            with open(self.filepath, "r") as f:
+                lines = f.read().splitlines()
+                l_data = []
+                for d in lines:
+                    l_data.append(dict(zip(self.metadata["collumns"], list(d.split(" <|> ")))))
+                self.data = l_data
+        except FileNotFoundError:
+            print(self.filepath)
+            self.save_data()  
 
     def save_data(self):
-        with open(self.filepath, "wb") as f:
-            pickle.dump(self.data, f)
+        with open(self.filepath, "w") as f:
+            for c_data in self.data:
+                f.writelines(str(" <|> ".join(c_data.values()) + '\n'))
 
     def get_one(self, id):
         temp_object = self.data[self.binary_search(id)]
