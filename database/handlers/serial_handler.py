@@ -16,11 +16,6 @@ class SerialHandler:
         except FileNotFoundError:
             print("Meta file nije pronadjen!")
 
-    # def save_data(self):
-    #     with open(self.filepath, "w") as f:
-    #         for c_data in self.data:
-    #             f.writelines(str(" <|> ".join(c_data.values())) + '\n')
-
     def get_all(self):
         try:
             with open(self.filepath, "r") as f:
@@ -55,14 +50,26 @@ class SerialHandler:
                     f.write(ln + '\n')
             f.truncate()
 
-    def delete_one(self, id):
+    def delete_one(self, obj):
+        # with open(self.filepath, "r+") as f:
+        #     deleted = False
+        #     while True:
+        #         line = f.readline().strip()
+        #         if line == "":
+        #             break
+        #         current_line = self.to_dict(line)
+        #         if obj == current_line and deleted == False:
+        #             deleted = True
+        #             continue
+        #         f.write(line + "\n")
+            
         with open(self.filepath, "r+") as f:
             lines = f.read().splitlines()
             f.seek(0)
             deleted = False
             for ln in lines:
                 current_line = self.to_dict(ln)
-                if id == current_line and deleted == False:
+                if obj == current_line and deleted == False:
                     deleted = True
                     continue
                 f.write(ln + '\n')

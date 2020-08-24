@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtCore
+from PySide2 import QtWidgets, QtCore, QtGui
 from gui.form import Form
 import datetime
 
@@ -142,6 +142,7 @@ class Model(QtCore.QAbstractTableModel):
                 for j in range(len(self.data_list.metadata["key"])):
                     if self.data_list.metadata["collumns"][i] == self.data_list.metadata["key"][j]:
                         if index.column() == i:
+                            
                             return ~QtCore.Qt.ItemIsEditable
         return super().flags(index) | QtCore.Qt.ItemIsEditable
 
