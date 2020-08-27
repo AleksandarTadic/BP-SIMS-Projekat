@@ -4,6 +4,10 @@ from PySide2 import QtWidgets, QtGui, QtCore
 class Help(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super(Help, self).__init__(parent)
+        self.setter()
+
+
+    def setter(self):
         self.setMinimumSize(200, 100)
         self.setWindowTitle("Help")
         self.setWindowIcon(QtGui.QIcon("icons/angry.ico"))
@@ -32,7 +36,5 @@ class Help(QtWidgets.QDialog):
         ''')
         self.help_text.setFont(QtGui.QFont("Times", 11))
         self.help_layout.addWidget(self.help_text)
-        # help_me.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
-        # help_me.setText("Otvaranje datoteke: levim klikom na fajl iz leve tabele.\n\nFullScreen: View/Fullscreen ili F11\n")
         self.setLayout(self.help_layout)
         self.exec()

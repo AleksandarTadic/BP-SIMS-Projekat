@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtCore
+from PySide2 import QtWidgets, QtCore, QtGui
 from gui.form import Form
 import datetime
 
@@ -10,10 +10,8 @@ class Model(QtCore.QAbstractTableModel):
         self.filtered_data = filtered_data
 
     def get_element(self, index):
-        # dodato filter
         if self.filtered_data is not None:
             return self.filtered_data[index.row()]
-        # 
         return self.data_list.get_all()[index.row()]
 
     # def get_element(self, index):
