@@ -32,6 +32,7 @@ class SequentialHandler:
         if os.path.exists(self.filepath):
             counter = 0
             at_end = False
+            found = False
             with open(self.filepath, "r") as fr:
                 while True:
                     line = fr.readline().strip()
@@ -39,10 +40,11 @@ class SequentialHandler:
                         break
                     current_line = self.to_dict(line)
                     if self.concat(obj) < self.concat(current_line):
+                        found = True
                         break
-                    else:
-                        at_end = True
                     counter += 1
+                if found == False:
+                    at_end = True
             c_counter = 0
             with open(self.filepath, "r") as fr:
                 with open(self.filepath+"_temp", "w") as tempfw:
@@ -52,7 +54,6 @@ class SequentialHandler:
                             break
                         current_line = self.to_dict(line)
                         if c_counter == counter:
-                            print("radi")
                             tempfw.write(self.to_text(obj))
                         tempfw.write(line + "\n")
                         c_counter += 1

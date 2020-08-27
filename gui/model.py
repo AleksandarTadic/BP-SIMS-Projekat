@@ -132,7 +132,6 @@ class Model(QtCore.QAbstractTableModel):
         # dodato filter 
         if self.filtered_data is not None:
             self.filtered_data.append(obj)
-        # treba za baze proveriti da se ne moze dodati kljuc koji ne potoji
         self.endInsertRows()
         return True
 
