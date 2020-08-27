@@ -1,5 +1,6 @@
 import json
 import pickle
+import os
 
 class SerialHandler:
     def __init__(self, meta_filepath, filepath):
@@ -28,53 +29,47 @@ class SerialHandler:
             print(self.filepath)
 
     def insert(self, obj):
-        try:
+        if os.path.exists(self.filepath):
             with open(self.filepath, "a") as f:
                 f.write(self.to_text(obj))
-        except FileNotFoundError:
-            print(self.filepath)
 
-    def edit(self, id, attr, value):
-        with open(self.filepath, "r+") as f:
-            lines = f.read().splitlines()
-            f.seek(0)
-            found = False
-            for ln in lines:
-                current_line = self.to_dict(ln)
-                if id == current_line and found == False:
-                    new_value= id
-                    new_value[attr] = value
-                    found = True
-                    f.write(self.to_text(new_value))
-                else:
-                    f.write(ln + '\n')
-            f.truncate()
+    def edit(self, obj, attr, value):
+        if os.path.exists(self.filepath):
+            with open(self.filepath, "r") as fr:
+                with open(self.filepath+"_temp", "w") as tempfw:
+                    found = False
+                    while True:
+                        line = fr.readline().strip()
+                        if line == "":
+                            break
+                        current_line = self.to_dict(line)
+                        if obj == current_line and found == False:
+                            found = True
+                            new_value = obj
+                            new_value[attr] = value
+                            tempfw.write(self.to_text(new_value))
+                            continue
+                        tempfw.write(line + "\n")
+            os.remove(self.filepath)
+            os.rename(self.filepath+"_temp", self.filepath)
 
     def delete_one(self, obj):
-        # with open(self.filepath, "r+") as f:
-        #     deleted = False
-        #     while True:
-        #         line = f.readline().strip()
-        #         if line == "":
-        #             break
-        #         current_line = self.to_dict(line)
-        #         if obj == current_line and deleted == False:
-        #             deleted = True
-        #             continue
-        #         f.write(line + "\n")
-            
-        with open(self.filepath, "r+") as f:
-            lines = f.read().splitlines()
-            f.seek(0)
-            deleted = False
-            for ln in lines:
-                current_line = self.to_dict(ln)
-                if obj == current_line and deleted == False:
-                    deleted = True
-                    continue
-                f.write(ln + '\n')
-            f.truncate()
-            
+        if os.path.exists(self.filepath):
+            with open(self.filepath, "r") as fr:
+                with open(self.filepath+"_temp", "w") as tempfw:
+                    deleted = False
+                    while True:
+                        line = fr.readline().strip()
+                        if line == "":
+                            break
+                        current_line = self.to_dict(line)
+                        if obj == current_line and deleted == False:
+                            deleted = True
+                            continue
+                        tempfw.write(line + "\n")
+            os.remove(self.filepath)
+            os.rename(self.filepath+"_temp", self.filepath)
+                      
     def to_dict(self, line):
         return dict(zip(self.metadata["collumns"], list(line.split(" <|> "))))
 

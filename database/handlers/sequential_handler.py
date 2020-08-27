@@ -1,100 +1,108 @@
 import json
 import pickle
+import os
 
 class SequentialHandler:
     def __init__(self, meta_filepath, filepath):
         super().__init__()
         self.filepath = "database/data/" + filepath
         self.meta_filepath = "database/metadata/" + meta_filepath
-        self.data = []
         self.metadata = {}
-        self.load_data()
+        self.load_metadata()
 
-    def load_data(self):
+    def load_metadata(self):
         try:
             with open(self.meta_filepath, "r") as meta_file:
                 self.metadata = json.load(meta_file)
         except FileNotFoundError:
             print("Meta file nije pronadjen!")
+
+    def get_all(self):
         try:
             with open(self.filepath, "r") as f:
                 lines = f.read().splitlines()
-                l_data = []
+                data = []
                 for d in lines:
-                    l_data.append(dict(zip(self.metadata["collumns"], list(d.split(" <|> ")))))
-                self.data = l_data
+                    data.append(self.to_dict(d))
+                return data
         except FileNotFoundError:
-            print(self.filepath)
-            self.save_data()  
+            print("Meta file nije pronadjen!")
 
-    def save_data(self):
-        with open(self.filepath, "w") as f:
-            for c_data in self.data:
-                f.writelines(str(" <|> ".join(c_data.values()) + '\n'))
+    def insert(self, obj): 
+        if os.path.exists(self.filepath):
+            counter = 0
+            at_end = False
+            with open(self.filepath, "r") as fr:
+                while True:
+                    line = fr.readline().strip()
+                    if line == "":
+                        break
+                    current_line = self.to_dict(line)
+                    if self.concat(obj) < self.concat(current_line):
+                        break
+                    else:
+                        at_end = True
+                    counter += 1
+            c_counter = 0
+            with open(self.filepath, "r") as fr:
+                with open(self.filepath+"_temp", "w") as tempfw:
+                    while True:
+                        line = fr.readline().strip()
+                        if line == "":
+                            break
+                        current_line = self.to_dict(line)
+                        if c_counter == counter:
+                            print("radi")
+                            tempfw.write(self.to_text(obj))
+                        tempfw.write(line + "\n")
+                        c_counter += 1
+                    if at_end:
+                        tempfw.write(self.to_text(obj))
+            os.remove(self.filepath)
+            os.rename(self.filepath+"_temp", self.filepath)
 
-    def get_one(self, id):
-        temp_object = self.data[self.binary_search(id)]
-        if temp_object is not None:
-            return temp_object
-        else:
-            print("Objekat nije pronadjen!")
+    def edit(self, obj, attr, value):
+        if os.path.exists(self.filepath):
+            with open(self.filepath, "r") as fr:
+                with open(self.filepath+"_temp", "w") as tempfw:
+                    found = False
+                    while True:
+                        line = fr.readline().strip()
+                        if line == "":
+                            break
+                        current_line = self.to_dict(line)
+                        if obj == current_line and found == False:
+                            found = True
+                            new_value = obj
+                            new_value[attr] = value
+                            tempfw.write(self.to_text(new_value))
+                            continue
+                        tempfw.write(line + "\n")
+            os.remove(self.filepath)
+            os.rename(self.filepath+"_temp", self.filepath)
 
-    def get_all(self):
-        return self.data
+    def delete_one(self, obj):
+        if os.path.exists(self.filepath):
+            with open(self.filepath, "r") as fr:
+                with open(self.filepath+"_temp", "w") as tempfw:
+                    deleted = False
+                    while True:
+                        line = fr.readline().strip()
+                        if line == "":
+                            break
+                        current_line = self.to_dict(line)
+                        if obj == current_line and deleted == False:
+                            deleted = True
+                            continue
+                        tempfw.write(line + "\n")
+            os.remove(self.filepath)
+            os.rename(self.filepath+"_temp", self.filepath)
+                 
+    def to_dict(self, line):
+        return dict(zip(self.metadata["collumns"], list(line.split(" <|> "))))
 
-    def insert(self, obj):
-        location = self.find_location_binary(obj)
-        if (location == None):
-            self.data.append(obj)
-        else:
-            self.data.insert(location, obj)
-        self.save_data()
-
-    def insert_many(self, obj_list):
-        if len(obj_list) > 0:
-            if not isinstance(obj_list, list):
-                return
-            for obj in obj_list:
-                self.insert(obj)
-
-    def edit(self, id, attr, value):
-        change_data = self.data[self.binary_search(id)]
-        change_data[attr] = value
-        self.save_data()
-
-    def delete_one(self, id):
-        temp_object = self.data[self.binary_search(id)]
-        if temp_object is not None:
-            self.data.remove(temp_object)
-            self.save_data()
-  
-    def binary_search(self, id):
-        start = 0
-        end = len(self.data)-1
-        found = False
-        while (start <= end and not found):
-            mid = start + (end - start)//2
-            if self.concat(self.data[mid]) == self.concat(id):
-                found == True
-                return mid
-            elif self.concat(self.data[mid]) < self.concat(id):
-                start = mid + 1
-            else:
-                end = mid - 1
-        return None
-
-    def find_location_binary(self, obj):
-        start = 0
-        end = len(self.data)-1
-        while start <= end:
-            mid = start + (end - start)//2
-            if self.concat(self.data[mid]) > self.concat(obj):
-                return mid
-            elif self.concat(self.data[mid]) < self.concat(obj):
-                start = mid + 1
-            else:
-                end = mid - 1
-        return start
+    def to_text(self, current_dict):
+        return str(" <|> ".join(current_dict.values())) + '\n'
 
     def concat(self, keys):
         primary_key = ""

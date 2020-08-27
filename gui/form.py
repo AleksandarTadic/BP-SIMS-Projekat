@@ -53,7 +53,7 @@ class Form(QtWidgets.QDialog):
                     date = date.strftime("%d.%m.%Y")
                 self.new_object[self.data_type.metadata["collumns"][i]] = date
         if self.data_type.metadata["type"] != "serial":
-            for i in self.data_type.data:
+            for i in self.data_type.get_all():
                 if self.data_type.concat(i) == self.data_type.concat(self.new_object):
                     self.message_box("Kljuc je zauzet!")
                     self.new_object = None

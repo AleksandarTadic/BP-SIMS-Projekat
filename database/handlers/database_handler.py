@@ -17,10 +17,20 @@ class DatabaseHandler:
             print(self.meta_filepath)
             print("Meta file nije pronadjen!")
 
+    # def connect(self):
+    #     try:
+    #         if self.connection == None:
+    #             self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
+    #     except pymysql.MySQLError as e:
+    #         print(e)
+    
     def connect(self):
         try:
             if self.connection == None:
-                self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
+                with open("database/db/db.json", "r") as fdb:
+                    fdata = json.load(fdb)
+                    print(fdata["user"])
+                self.connection = pymysql.connect(host="localhost", user=fdata["user"], password=fdata["pass"], db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
         except pymysql.MySQLError as e:
             print(e)
 
