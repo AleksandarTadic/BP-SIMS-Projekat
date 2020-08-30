@@ -32,5 +32,11 @@
     ],
     "path_to_file": "studenti.txt",
     "type": "sequential",
-    "db_table_name": "studenti"
+    "db_table_name": "studenti",
+    "procedures": [{
+        "get_all":"DobaviStudente()",
+        "insert":"DodajStudenta(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        "delete":"IzbrisiStudenta(%s, %s, %s)",
+        "edit":"IzmeniStudenta(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    }]
 }

@@ -34,5 +34,11 @@
     "linked_keys": false,
     "path_to_file": "tok_studija.txt",
     "type": "sequential",
-    "db_table_name": "tok_studija"
+    "db_table_name": "tok_studija",
+    "procedures": [{
+            "get_all":"DobaviTokStudija()",
+            "insert":"DodajTokStudija(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            "delete":"IzbrisiTokStudija(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            "edit":"IzmeniTokStudija(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    }]
 }

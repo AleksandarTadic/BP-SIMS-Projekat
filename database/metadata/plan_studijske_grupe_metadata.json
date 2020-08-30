@@ -22,5 +22,11 @@
     "linked_keys": false,
     "path_to_file": "plan_studijske_grupe.txt",
     "type": "serial",
-    "db_table_name": "plan_studijske_grupe"
+    "db_table_name": "plan_studijske_grupe",
+    "procedures": [{
+        "get_all":"DobaviPlanStudijskeGrupe()",
+        "insert":"DodajPlanStudijskeGrupe(%s, %s, %s, %s, %s, %s)",
+        "delete":"IzbrisiPlanStudijskeGrupe(%s, %s, %s, %s)",
+        "edit":"IzmeniPlanStudijskeGrupe(%s, %s, %s, %s, %s, %s)"
+    }]
 }

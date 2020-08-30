@@ -32,5 +32,11 @@
     ],
     "path_to_file": "visokoskolska_ustanova.txt",
     "type": "serial",
-    "db_table_name": "visokoskolska_ustanova"
+    "db_table_name": "visokoskolska_ustanova",
+    "procedures": [{
+            "get_all":"DobaviVisokoskolskeUstanove()",
+            "insert":"DodajVisokoskolskuUstanovu(%s, %s, %s)",
+            "delete":"IzbrisiVisokoskolskuUstanovu(%s)",
+            "edit":"IzmeniVisokoskolskuUstanovu(%s, %s, %s)"
+    }]
 }

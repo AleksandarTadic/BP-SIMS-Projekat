@@ -6,6 +6,7 @@ from gui.central_widget import CentralWidget
 from gui.appearence.appearence import *
 from gui.help import Help
 from database.file_handler import FileHandler
+from database.db.db_scheme import DatabaseScheme
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -61,9 +62,10 @@ class MainWindow(QtWidgets.QMainWindow):
         structure_dock.setMaximumWidth(250)
 
         # db dock
-        with open("database/metadata/db_metadata.json", "r") as f:
-            db = json.load(f)
-        db = db["database"]
+        # with open("database/metadata/db_metadata.json", "r") as f:
+        #     db = json.load(f)
+        # db = db["database"]
+        db = DatabaseScheme().get_scheme()
         database_dock = QtWidgets.QDockWidget("Database Dock", self)
         database_dock.setMaximumWidth(250)
         self.db_list = QtWidgets.QListWidget()

@@ -136,7 +136,7 @@ class Model(QtCore.QAbstractTableModel):
         return True
 
     def flags(self, index):
-        if self.data_list.metadata["type"] != "serial":
+        if (self.data_list.metadata["type"] != "serial") or (self.data_list.is_database() == True):
             for i in range(len(self.data_list.metadata["collumns"])):
                 for j in range(len(self.data_list.metadata["key"])):
                     if self.data_list.metadata["collumns"][i] == self.data_list.metadata["key"][j]:

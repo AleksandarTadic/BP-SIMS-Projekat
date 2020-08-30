@@ -9,7 +9,11 @@ class DatabaseHandler:
         self.meta_filepath = "database/metadata/" + meta_filepath
         self.metadata = {}
         self.connection = None
+        self.load_metadata()
         self.load_data()
+
+
+    def load_metadata(self):
         try:
             with open(self.meta_filepath, "rb") as meta_file:
                 self.metadata = json.load(meta_file)
@@ -29,7 +33,6 @@ class DatabaseHandler:
             if self.connection == None:
                 with open("database/db/db.json", "r") as fdb:
                     fdata = json.load(fdb)
-                    print(fdata["user"])
                 self.connection = pymysql.connect(host="localhost", user=fdata["user"], password=fdata["pass"], db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
         except pymysql.MySQLError as e:
             print(e)
@@ -41,8 +44,8 @@ class DatabaseHandler:
         try:
             self.connect()
             with self.connection.cursor() as cursor:
-                # query = "SHOW TABLES"
-                query = self.get_query(0)
+                query = "CALL " + self.metadata["procedures"][0]["get_all"]
+
                 cursor.execute(query, ())
                 result = cursor.fetchall()
                 self.data = result
@@ -85,8 +88,10 @@ class DatabaseHandler:
         try:
             self.connect()
             with self.connection.cursor() as cursor:
-                query = self.get_query(1)
+                query = "CALL " + self.metadata["procedures"][0]["insert"]
+                print(query)
                 obj = tuple(obj.values())
+                print(obj)
                 cursor.execute(query, obj)
                 self.connection.commit()
         except pymysql.MySQLError as e:
@@ -101,7 +106,8 @@ class DatabaseHandler:
         try:
             self.connect()
             with self.connection.cursor() as cursor:
-                query = self.get_query(2)
+                query = "CALL " + self.metadata["procedures"][0]["delete"]
+                print(query)
                 primary_keys = []
                 for i in self.metadata["key"]:
                     t = obj[i]
@@ -120,13 +126,11 @@ class DatabaseHandler:
         try:
             self.connect()
             with self.connection.cursor() as cursor:
-                query = self.get_query(3, attr, str(value))
-                primary_keys = []
-                for i in self.metadata["key"]:
-                    t = obj[i]
-                    primary_keys.append(t)
-                tuple(primary_keys)
-                cursor.execute(query, primary_keys)
+                query = "CALL " + self.metadata["procedures"][0]["edit"]
+                print(query)
+                obj[attr] = value
+                obj = tuple(obj.values())
+                cursor.execute(query, obj)
                 self.connection.commit()
         except pymysql.MySQLError as e:
             print(e)
@@ -140,6 +144,7 @@ class DatabaseHandler:
         query = ""
         if num == 0:
             query = "Select * FROM " + self.table
+            print(query)
             return query
         elif num == 1:
             query = "INSERT INTO " + self.table + " ("

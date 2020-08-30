@@ -24,5 +24,11 @@
     ],
     "path_to_file": "nastavni_predmet.txt",
     "type": "serial",
-    "db_table_name": "nastavni_predmet"
+    "db_table_name": "nastavni_predmet",
+    "procedures": [{
+        "get_all":"DobaviNastavniPredmet()",
+        "insert":"DodajNastavniPredmet(%s, %s, %s, %s)",
+        "delete":"IzbrisiNastavniPredmet(%s, %s)",
+        "edit":"IzmeniNastavniPredmet(%s, %s, %s, %s)"
+    }]
 }

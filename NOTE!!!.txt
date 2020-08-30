@@ -1,0 +1,1 @@
+Potrebno je dodati procedure "ustanove_procedure.sql" u sql ""
